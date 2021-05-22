@@ -3,6 +3,8 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+import { Link } from 'react-router-dom';
+import Profile from './profile/Profile';
 
 const StyledTabs = withStyles({
   indicator: {
@@ -54,11 +56,21 @@ export default function CustomizedTabs() {
     <div className={classes.root}>
       <div className={classes.demo2}>
         <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example">
-          <StyledTab label="Write" />
-          <StyledTab label="Reply" />
-          <StyledTab label="Inbox" />
-          <StyledTab label="Stickers" />
-          <StyledTab label="Profile" />
+          <Link to='./write'>
+            <StyledTab label="Write" />
+          </Link>
+          <Link to='./reply'>
+            <StyledTab label="Reply" />
+          </Link>
+          <Link to='./inbox'>
+            <StyledTab label="Inbox" />
+          </Link>
+          <Link to='./stickers'>
+            <StyledTab label="Stickers" />
+          </Link>
+          <Link to='./profile'>
+            <StyledTab label="Profile" />
+          </Link>
         </StyledTabs>
         <Typography className={classes.padding} />
       </div>

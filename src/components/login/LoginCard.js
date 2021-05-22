@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 const useStyles = makeStyles({
   root: {
     maxWidth: 500,
-    margin: 10,
+    margin: 30,
     padding: 15.
   },
   bullet: {
