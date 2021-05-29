@@ -1,4 +1,8 @@
+import React from 'react'
 import { Button, Card, makeStyles, Typography } from "@material-ui/core";
+import ResponseCard from './ResponseCard';
+
+
 const useStyles = makeStyles({
   button: {
     backgroundColor: "#EAAB66",
@@ -39,8 +43,11 @@ function Reply() {
       <Button variant="contained" className={classes.button}> Reply </Button>
       <Button variant="contained" className={classes.button}> Next </Button>
 
+    <div></div>
 
+    <ResponseCard> </ResponseCard>
     </>
+  
   );
 }
 
