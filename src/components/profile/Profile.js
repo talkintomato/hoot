@@ -5,18 +5,6 @@ import ProfileCard from "./ProfileCard";
 import ProfileData from "./ProfileData";
 
 const UseStyles = makeStyles({
-  profileBox: {
-    padding: "20px",
-    backgroundColor: "rgba(00, 00, 00, 0.6)",
-  },
-  profileName: {
-    fontSize: 55,
-    color: "white",
-  },
-  profileBody: {
-    fontSize: 36,
-    color: "white",
-  },
   avatar: {
     maxWidth: "100%",
     maxHeight: "70%",

@@ -22,7 +22,7 @@ const UseStyles = makeStyles({
     color: "white",
   },
   accountDetails: {
-    fontSize: 18,
+    fontSize: 16,
     color: "#CFD1D2",
     marginBottom: 10,
   },
@@ -53,6 +53,7 @@ function ProfileCard(props) {
       </Typography>
       <Divider className={classes.divider} />
       <Typography className={classes.accountDetails}>
+        Account Details: <br />
         Username: {user.username}
         <br />
         Email: {user.email}
