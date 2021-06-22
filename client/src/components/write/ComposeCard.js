@@ -4,6 +4,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Button, TextField } from '@material-ui/core';
+import Axios from 'axios';
+
 
 const useStyles = makeStyles({
     root: {
@@ -50,7 +52,8 @@ const useStyles = makeStyles({
 
 export default function ComposeCard() {
     const classes = useStyles();
-    
+    const [content, setContent] = useState("");
+
 
     return (
         <>
@@ -58,25 +61,11 @@ export default function ComposeCard() {
                 <CardContent className={classes.header}>
                     <Typography className={classes.title} gutterBottom>
                         Compose
-          </Typography>
+                    </Typography>
                 </CardContent>
                 <CardContent>
-                    {/* <form noValidate autoComplete="off">
-                        <TextField id="standard-multiline-static"
-                            InputProps={{
-                                className: classes.form
-                            }}
-                            label="Dear A, "
-                            variant="outlined"
-                            multiline
-                            rows={4}
-                            defaultValue="Default Value"
-                            color="secondary"
-                            autoFocus="true" />
-                        </form> */}
                     <form>
                         <textarea rows="6">
-
                         </textarea>
                     </form>
                 </CardContent>
