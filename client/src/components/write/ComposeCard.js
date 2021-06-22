@@ -4,6 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Button, TextField } from '@material-ui/core';
+import { useState } from 'react';
 import Axios from 'axios';
 
 
@@ -54,6 +55,18 @@ export default function ComposeCard() {
     const classes = useStyles();
     const [content, setContent] = useState("");
 
+    const writePost = () => {
+        Axios.post('http://localhost:5000/write', {
+            id: 0,
+            user_id: 1,
+            content: content, 
+            reply_count: 0,
+            time: 0,
+        }).then((() => console.log("success")))
+    };
+
+    const display = () => {console.log(content)};
+
 
     return (
         <>
@@ -65,7 +78,7 @@ export default function ComposeCard() {
                 </CardContent>
                 <CardContent>
                     <form>
-                        <textarea rows="6">
+                        <textarea rows="6" onChange={(event) => {setContent(event.target.value)}}>
                         </textarea>
                     </form>
                 </CardContent>
@@ -74,7 +87,7 @@ export default function ComposeCard() {
                 Back
             </Button>
             <Button variant="contained" className={classes.button}> Save Draft </Button>
-            <Button variant="contained" className={classes.button}> Hoot </Button>
+            <Button variant="contained" className={classes.button} onClick={writePost}> Hoot </Button>
         </>
     );
 }
