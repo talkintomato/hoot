@@ -61,7 +61,7 @@ export default function ComposeCard() {
             user_id: 1,
             content: content, 
             reply_count: 0,
-            time: 0,
+            time: Date(),
         }).then((() => console.log("success")))
     };
 
