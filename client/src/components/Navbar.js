@@ -1,18 +1,19 @@
-import React from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core";
 
 const StyledTab = withStyles((theme) => ({
   root: {
-    textTransform: 'none',
-    color: '#fff',
+    textTransform: "none",
+    color: "#fff",
     fontWeight: theme.typography.fontWeightRegular,
     fontSize: theme.typography.pxToRem(15),
     marginRight: theme.spacing(1),
-    '&:focus': {
+    "&:focus": {
       opacity: 100,
     },
   },
@@ -26,11 +27,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   demo2: {
-    backgroundColor: '#808080',
+    backgroundColor: "#808080",
   },
 }));
 
-export default function CustomizedTabs() {
+export default function CustomizedTabs({ Logout }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -41,21 +42,24 @@ export default function CustomizedTabs() {
   return (
     <div className={classes.root}>
       <div className={classes.demo2}>
-          <Link to='./write'>
-            <StyledTab label="Write" />
-          </Link>
-          <Link to='./reply'>
-            <StyledTab label="Reply" />
-          </Link>
-          <Link to='./inbox'>
-            <StyledTab label="Inbox" />
-          </Link>
-          <Link to='./stickers'>
-            <StyledTab label="Stickers" />
-          </Link>
-          <Link to='./profile'>
-            <StyledTab label="Profile" />
-          </Link>
+        <Link to="./write">
+          <StyledTab label="Write" />
+        </Link>
+        <Link to="./reply">
+          <StyledTab label="Reply" />
+        </Link>
+        <Link to="./inbox">
+          <StyledTab label="Inbox" />
+        </Link>
+        <Link to="./stickers">
+          <StyledTab label="Stickers" />
+        </Link>
+        <Link to="./profile">
+          <StyledTab label="Profile" />
+        </Link>
+        <Button onClick={Logout}>
+          <StyledTab label="Logout" />
+        </Button>
         <Typography className={classes.padding} />
       </div>
     </div>
