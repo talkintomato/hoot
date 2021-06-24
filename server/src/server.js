@@ -19,12 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 // when user creates a hoot 
 app.post('/write', (req, res) => {
   console.log(req.body);
-
-  const id = req.body.id;
-  const user_id = req.body.user_id;
-  const content = req.body.content;
-  const reply_count = req.body.reply_count;
-  const time = req.body.time;
+  const {id, user_id, content, reply_count, time} = req.body;
 
   db.query(
     "INSERT INTO hoots (id, user_id, content, reply_count, time) VALUES (?,?,?,?,?)",
@@ -59,6 +54,23 @@ app.get('/inbox', (req, res) => {
       res.send(result)
     }
   });
+});
+
+//add users 
+app.post('/users', (req, res) => {
+  console.log(req.body);
+  const {id, email, username} = req.body;
+
+  db.query(
+    "INSERT INTO hoot.users (id, email, username, post_count, reply_count, sticker_count) VALUES (?, ?, ?, ?, ?, ?)",
+    [id, email, username, 0, 0, 0], (err, result) => {
+      if (err) {
+        console.log(err)
+      } else { 
+        res.status(200).send("Values Inserted"); 
+      }
+    }
+  )
 });
 
 //reply to a hoot 

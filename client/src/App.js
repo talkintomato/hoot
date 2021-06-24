@@ -15,6 +15,7 @@ function App() {
     //  <LoginCard />
     <Router>
      <NavBar /> 
+     {/* <Redirect exact from="/" to="/inbox" /> */}
      <Route path="/inbox" component={Inbox} />
      <Route path="/profile" component={Profile} />
      <Route path="/reply" component={Reply} />
