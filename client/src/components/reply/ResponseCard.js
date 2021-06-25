@@ -1,5 +1,7 @@
 import { Button, Card, Grid, makeStyles, TextField, Typography } from '@material-ui/core'
 import React from 'react'
+import { useState, useEffect } from 'react';
+import Axios from 'axios';
 
 const UseStyles = makeStyles({
     msg: {
@@ -37,6 +39,17 @@ const UseStyles = makeStyles({
 
 export default function ResponseCard(props) {
     const classes = UseStyles();
+    const [content, setContent] = useState("");
+
+    const writePost = () => {
+        Axios.post('http://localhost:5000/reply', {
+            user_id: 2,
+            post_id: props.post.id,
+            // post_id: 14,/
+            content: content, 
+            sticker: 0,
+        }).then((() => console.log("success")))
+    };
 
     return (
         <>
@@ -57,12 +70,13 @@ export default function ResponseCard(props) {
                             rows={10}
                             fullWidth
                             variant="filled"
+                            onChange={(event) => {setContent(event.target.value);}}
                         />
                     </Card>
                 </Grid>
             </Grid>
             <Button variant="contained" className={classes.button}> Back </Button>
-            <Button variant="contained" className={classes.button}> Hoot </Button>
+            <Button variant="contained" className={classes.button} onClick={writePost}> Hoot </Button>
         </>
     )
 }

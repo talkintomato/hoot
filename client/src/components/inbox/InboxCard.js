@@ -75,7 +75,7 @@ export default function InboxCard(props) {
             <CardContent>
                 <Divider className={classes.divider} />
                 {userPosts.map((users) => (
-                    <Button  variant="contained" className={classes.messagePrev} fullWidth endIcon={<SaveIcon />}> {users.content} </Button>
+                    <Button  variant="contained" className={classes.messagePrev} fullWidth endIcon={<SaveIcon />}> {users.content + " " + users.reply_count} </Button>
                 ))}
             </CardContent>
         </Card>

@@ -55,6 +55,22 @@ app.get('/reply/:user_id', (req, res) => {
   });
 });
 
+app.post('/reply', (req, res) => {
+  console.log(req.body);
+  const {id, user_id, post_id, content, sticker} = req.body;
+
+  db.query(
+    "INSERT INTO replies (user_id, post_id, content, sticker, viewed) VALUES ( ?, ?, ?, ?, ?)",
+    [user_id, post_id, content, sticker, 0], (err, result) => {
+      if (err) {
+        console.log(err)
+      } else { 
+        res.status(200).send("Values Inserted"); 
+      }
+    }
+  )
+});
+
 // view own hoots
 app.get('/inbox/:user_id', (req, res) => {
   const user_id = req.params.user_id;
