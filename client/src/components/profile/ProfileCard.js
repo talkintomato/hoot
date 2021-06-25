@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "../Navbar";
 import {
   Button,
   Card,
@@ -34,8 +33,8 @@ const UseStyles = makeStyles({
 });
 
 function ProfileCard(props) {
-  console.log(props.data);
-  const user = props.data;
+  console.log(props.data[0]);
+  const user = props.data[0];
   const classes = UseStyles();
 
   return (
@@ -43,22 +42,22 @@ function ProfileCard(props) {
       <Typography className={classes.profileName}>Darin Loh Han Sum</Typography>
       <Divider className={classes.divider} />
       <Typography className={classes.profileBody}>
-        HOOTS: {user.hoots}
+        HOOTS: {user.post_count}
         <br />
-        ANSWERS: {user.answers}
+        ANSWERS: {user.reply_count}
         <br />
-        STICKERS: {user.stickers}
+        STICKERS: {user.sticker_count}
         <br />
-        LEVEL: {user.rank}
+        LEVEL: {"noob"}
       </Typography>
       <Divider className={classes.divider} />
       <Typography className={classes.accountDetails}>
         Account Details: <br />
         Username: {user.username}
         <br />
-        Email: {user.email}
+        Email: {user.email} 
         <br />
-        Password: {user.password.replace(/./g, "*")}
+        {/* Password: {user.password.replace(/./g, "*")} */}
       </Typography>
       <Button variant="outlined" size="small">
         Edit

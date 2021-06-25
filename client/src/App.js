@@ -6,16 +6,17 @@ import Profile from './components/profile/Profile';
 import Reply from './components/reply/Reply';
 import Stickers from './components/stickers/Stickers';
 import Write from './components/write/Write';
-import {BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
+import {BrowserRouter as Router, Route } from 'react-router-dom';
+import { useState } from 'react';
 
 
 function App() {
+  const [id, setid] = useState(2);
+
   return (
     //  <LoginCard />
     <Router>
      <NavBar /> 
-     {/* <Redirect exact from="/" to="/inbox" /> */}
      <Route path="/inbox" component={Inbox} />
      <Route path="/profile" component={Profile} />
      <Route path="/reply" component={Reply} />

@@ -62,7 +62,7 @@ app.post('/users', (req, res) => {
   const {id, email, username} = req.body;
 
   db.query(
-    "INSERT INTO hoot.users (id, email, username, post_count, reply_count, sticker_count) VALUES (?, ?, ?, ?, ?, ?)",
+    "INSERT INTO users (id, email, username, post_count, reply_count, sticker_count) VALUES (?, ?, ?, ?, ?, ?)",
     [id, email, username, 0, 0, 0], (err, result) => {
       if (err) {
         console.log(err)
@@ -73,8 +73,16 @@ app.post('/users', (req, res) => {
   )
 });
 
-//reply to a hoot 
-app.get
+//get user info
+app.get('/users/:id', (req, res) => {
+  db.query("SELECT * FROM users WHERE id = ?", [req.params.id], (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(result)
+    }
+  });
+});
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 

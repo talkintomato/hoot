@@ -1,8 +1,10 @@
-import NavBar from "../Navbar";
 import { Card, Grid, makeStyles, Typography } from "@material-ui/core";
 import owl1 from "./hootowl.jpg";
 import ProfileCard from "./ProfileCard";
 import ProfileData from "./ProfileData";
+import Axios from 'axios';
+import { useState, useEffect } from "react";
+
 
 const UseStyles = makeStyles({
   avatar: {
@@ -15,6 +17,20 @@ const UseStyles = makeStyles({
 
 function Profile() {
   const classes = UseStyles();
+  const [userId, setUserId] = useState(2);
+  const [userData, setUserData] = useState([]);
+  const [loaded, setLoaded] = useState(false); 
+
+  useEffect( () =>  {
+    const fetchData = async () => {
+      const res = await Axios.get('http://localhost:5000/users/' + userId)
+      setUserData(res.data);
+      setLoaded(true);
+      console.log("after" , userData);
+    }
+    fetchData();
+    }, [])
+
   return (
     <>
       <h1> Profile </h1>
@@ -23,7 +39,7 @@ function Profile() {
           <img src={owl1} alt="" className={classes.avatar} />
         </Grid>
         <Grid item xs={6}>
-          <ProfileCard data={ProfileData} />
+          {loaded ? <ProfileCard data={userData} /> : null}
         </Grid>
       </Grid>
     </>
