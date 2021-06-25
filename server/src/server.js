@@ -19,11 +19,11 @@ app.use(express.urlencoded({ extended: true }));
 // when user creates a hoot 
 app.post('/write', (req, res) => {
   console.log(req.body);
-  const {id, user_id, content, reply_count, time} = req.body;
+  const {id, user_id, content, draft, reply_count, time} = req.body;
 
   db.query(
-    "INSERT INTO hoots (id, user_id, content, reply_count, time) VALUES (?,?,?,?,?)",
-    [id, user_id, content, reply_count, time], (err, result) => {
+    "INSERT INTO hoots (id, user_id, content, draft, reply_count, time) VALUES (?,?,?,?,?,?)",
+    [id, user_id, content, draft, reply_count, time], (err, result) => {
       if (err) {
         console.log(err)
       } else { 
@@ -33,9 +33,20 @@ app.post('/write', (req, res) => {
   )
 });
 
+// get drafts 
+app.get('/write/:user_id', (req, res) => {
+  db.query("SELECT * FROM hoots WHERE user_id = ? AND draft=1", [req.params.user_id], (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(result)
+    }
+  });
+});
+
 // view hoots in pool 
-app.get('/reply', (req, res) => {
-  db.query("SELECT * FROM hoots", (err, result) => {
+app.get('/reply/:user_id', (req, res) => {
+  db.query("SELECT * FROM hoots WHERE user_id != 1 AND draft = 0 AND reply_count <= 10", [req.params.user_id], (err, result) => {
     if (err) {
       console.log(err)
     } else {
@@ -45,9 +56,9 @@ app.get('/reply', (req, res) => {
 });
 
 // view own hoots
-app.get('/inbox', (req, res) => {
-  const user_id = req.body.user_id;
-  db.query("SELECT * FROM hoots WHERE user_id = ?", [user_id], (err, result) => {
+app.get('/inbox/:user_id', (req, res) => {
+  const user_id = req.params.user_id;
+  db.query("SELECT * FROM hoots WHERE user_id = ? AND draft=0", [user_id], (err, result) => {
     if (err) {
       console.log(err)
     } else {

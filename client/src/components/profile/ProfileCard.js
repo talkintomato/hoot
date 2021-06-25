@@ -39,7 +39,7 @@ function ProfileCard(props) {
 
   return (
     <Card className={classes.profileBox}>
-      <Typography className={classes.profileName}>Darin Loh Han Sum</Typography>
+      <Typography className={classes.profileName}>{user.username}</Typography>
       <Divider className={classes.divider} />
       <Typography className={classes.profileBody}>
         HOOTS: {user.post_count}

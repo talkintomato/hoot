@@ -35,21 +35,16 @@ const UseStyles = makeStyles({
     },
 })
 
-export default function ResponseCard() {
+export default function ResponseCard(props) {
     const classes = UseStyles();
+
     return (
         <>
             <Grid container>
                 <Grid item sm={6}>
                     <Card className={classes.msg}>
                         < Typography className={classes.msgText}>
-                            Dear A,
-                            Never gonna give you up.
-                            Never gonna let you down.
-                            Never gonna run around and desert you.
-                            Never gonna make you cry.
-                            Never gonna say goodbye.
-                            Never gonna tell a lie and hurt you. - B.
+                            {props.post.content}
                             </Typography>
                     </Card>
                 </Grid>
@@ -58,7 +53,6 @@ export default function ResponseCard() {
                         <TextField
                             id="filled-textarea"
                             label="Dear B, "
-                            // placeholder="Placeholder"
                             multiline
                             rows={10}
                             fullWidth

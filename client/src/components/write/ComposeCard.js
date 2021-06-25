@@ -58,8 +58,20 @@ export default function ComposeCard() {
     const writePost = () => {
         Axios.post('http://localhost:5000/write', {
             id: 0,
-            user_id: 1,
+            user_id: 2,
             content: content, 
+            draft: false,
+            reply_count: 0,
+            time: Date(),
+        }).then((() => console.log("success")))
+    };
+
+    const saveDraft = () => {
+        Axios.post('http://localhost:5000/write', {
+            id: 0,
+            user_id: 2,
+            content: content, 
+            draft: true, 
             reply_count: 0,
             time: Date(),
         }).then((() => console.log("success")))
@@ -86,7 +98,7 @@ export default function ComposeCard() {
             <Button variant="contained" className={classes.button}>
                 Back
             </Button>
-            <Button variant="contained" className={classes.button}> Save Draft </Button>
+            <Button variant="contained" className={classes.button} onClick={saveDraft}> Save Draft </Button>
             <Button variant="contained" className={classes.button} onClick={writePost}> Hoot </Button>
         </>
     );

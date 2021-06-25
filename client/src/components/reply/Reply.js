@@ -1,6 +1,8 @@
 import React from 'react'
 import { Button, Card, makeStyles, Typography } from "@material-ui/core";
 import ResponseCard from './ResponseCard';
+import { useState, useEffect } from 'react';
+import Axios from 'axios';
 
 
 const useStyles = makeStyles({
@@ -25,29 +27,40 @@ const useStyles = makeStyles({
 function Reply() {
   const classes = useStyles();
 
+  const [userId, setUserId] = useState(1);
+  const [postPool, setpostPool] = useState([]);
+  const [loaded, setLoaded] = useState(false); 
+  const [index, setindex] = useState(0);
+
+  useEffect(() =>  {
+    const fetchData = async () => {
+      const res = await Axios.get('http://localhost:5000/reply/' + userId)
+      setpostPool(res.data);
+      setLoaded(true);
+    }
+    fetchData();
+    }, [])
+  
+
+    // console.log("after" , postPool);
+
+
   return (
     <>
       <h1> Reply </h1>
       <Card className={classes.root}>
         <Typography className={classes.title}>
-          Dear A,
-          Never gonna give you up.
-          Never gonna let you down.
-          Never gonna run around and desert you.
-          Never gonna make you cry.
-          Never gonna say goodbye.
-          Never gonna tell a lie and hurt you.
+        {loaded? postPool[index].content: <Typography> No hoots right now! </Typography>}
        </Typography>
       </Card>
-      <Button variant="contained" className={classes.button}> Previous </Button>
-      <Button variant="contained" className={classes.button}> Reply </Button>
-      <Button variant="contained" className={classes.button}> Next </Button>
+      <Button variant="contained" className={classes.button} onClick={()=> {setindex(index-1);}}> Previous </Button>
+      <Button variant="contained" className={classes.button} > Reply </Button>
+      <Button variant="contained" className={classes.button} onClick={()=> {setindex(index+1);}}> Next </Button>
 
     <div></div>
 
-    <ResponseCard> </ResponseCard>
+    {loaded ? <ResponseCard post={postPool[index]}> </ResponseCard> : null}
     </>
-  
   );
 }
 

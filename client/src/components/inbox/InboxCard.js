@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Divider} from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
+import { useState, useEffect } from 'react';
+import Axios from 'axios';
 
 
 const useStyles = makeStyles({
@@ -45,20 +47,34 @@ const useStyles = makeStyles({
 
 export default function InboxCard(props) {
     const classes = useStyles();
-    console.log(props.data);
+    // console.log(props.data);
 
+    const [userId, setUserId] = useState(1);
+    const [userPosts, setUserPosts] = useState([]);
+    const [loaded, setLoaded] = useState(false); 
+  
+    useEffect( () =>  {
+      const fetchData = async () => {
+        const res = await Axios.get('http://localhost:5000/inbox/' + userId)
+        setUserPosts(res.data);
+        setLoaded(true);
+        console.log("after" , userPosts);
+      }
+      fetchData();
+      }, [])
+      
 
     return (
         <Card className={classes.root}>
             <CardContent className={classes.header}>
                 <Typography className={classes.title} gutterBottom>
-                    Drafts
+                    Hoots
         </Typography>
                 <Button variant="contained" className={classes.compose}> Compose </Button>
             </CardContent>
             <CardContent>
                 <Divider className={classes.divider} />
-                {props.data.map((users) => (
+                {userPosts.map((users) => (
                     <Button  variant="contained" className={classes.messagePrev} fullWidth endIcon={<SaveIcon />}> {users.content} </Button>
                 ))}
             </CardContent>
