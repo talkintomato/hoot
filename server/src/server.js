@@ -46,7 +46,7 @@ app.get('/write/:user_id', (req, res) => {
 
 // view hoots in pool 
 app.get('/reply/:user_id', (req, res) => {
-  db.query("SELECT * FROM hoots WHERE user_id != 1 AND draft = 0 AND reply_count <= 10", [req.params.user_id], (err, result) => {
+  db.query("SELECT * FROM hoots WHERE user_id != ? AND draft = 0 AND reply_count <= 10", [req.params.user_id], (err, result) => {
     if (err) {
       console.log(err)
     } else {

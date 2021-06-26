@@ -1,5 +1,6 @@
+import React, {useContext} from 'react';
+import { UserContext } from '../UserContext';
 import { Button, Card, Grid, makeStyles, TextField, Typography } from '@material-ui/core'
-import React from 'react'
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
 
@@ -40,10 +41,12 @@ const UseStyles = makeStyles({
 export default function ResponseCard(props) {
     const classes = UseStyles();
     const [content, setContent] = useState("");
+    const userId = useContext(UserContext);
+
 
     const writePost = () => {
         Axios.post('http://localhost:5000/reply', {
-            user_id: 2,
+            user_id: userId,
             post_id: props.post.id,
             // post_id: 14,/
             content: content, 

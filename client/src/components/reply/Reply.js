@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useContext} from 'react';
+import { UserContext } from '../UserContext';
 import { Button, Card, makeStyles, Typography } from "@material-ui/core";
 import ResponseCard from './ResponseCard';
 import { useState, useEffect } from 'react';
@@ -27,7 +28,7 @@ const useStyles = makeStyles({
 function Reply() {
   const classes = useStyles();
 
-  const [userId, setUserId] = useState(1);
+  const userId = useContext(UserContext);
   const [postPool, setpostPool] = useState([]);
   const [loaded, setLoaded] = useState(false); 
   const [index, setindex] = useState(0);

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { UserContext } from '../UserContext';
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
@@ -48,9 +49,10 @@ export default function DraftCard(props) {
   const classes = useStyles();
   console.log(props.data);
   
-  const [userId, setUserId] = useState(1);
   const [userDrafts, setUserDrafts] = useState([]);
   const [loaded, setLoaded] = useState(false); 
+  const userId = useContext(UserContext);
+
 
   useEffect( () =>  {
     const fetchData = async () => {

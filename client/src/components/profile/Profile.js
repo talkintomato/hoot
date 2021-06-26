@@ -1,3 +1,5 @@
+import React, {useContext} from 'react';
+import { UserContext } from '../UserContext';
 import { Card, Grid, makeStyles, Typography } from "@material-ui/core";
 import owl1 from "./hootowl.jpg";
 import ProfileCard from "./ProfileCard";
@@ -17,7 +19,7 @@ const UseStyles = makeStyles({
 
 function Profile() {
   const classes = UseStyles();
-  const [userId, setUserId] = useState(4);
+  const userId = useContext(UserContext);
   const [userData, setUserData] = useState([]);
   const [loaded, setLoaded] = useState(false); 
 

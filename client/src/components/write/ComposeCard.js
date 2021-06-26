@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { Button, TextField } from '@material-ui/core';
 import { useState } from 'react';
 import Axios from 'axios';
+import { UserContext } from '../UserContext';
 
 
 const useStyles = makeStyles({
@@ -54,11 +55,12 @@ const useStyles = makeStyles({
 export default function ComposeCard() {
     const classes = useStyles();
     const [content, setContent] = useState("");
+    const UserId = useContext(UserContext);
 
     const writePost = () => {
         Axios.post('http://localhost:5000/write', {
             id: 0,
-            user_id: 2,
+            user_id: UserId,
             content: content, 
             draft: false,
             reply_count: 0,
@@ -69,7 +71,7 @@ export default function ComposeCard() {
     const saveDraft = () => {
         Axios.post('http://localhost:5000/write', {
             id: 0,
-            user_id: 2,
+            user_id: UserId,
             content: content, 
             draft: true, 
             reply_count: 0,
