@@ -44,6 +44,20 @@ app.get('/write/:user_id', (req, res) => {
   });
 });
 
+// update a draft to a post (not implemented)
+app.put('/write/:id', (req, res) => {
+  db.query(
+    "UPDATE hoots SET drafts = 1, content=? WHERE id = ?", [req.body.content], (err, result) => {
+      if (err) {
+        console.log(err)
+      } else { 
+        res.status(200).send("Values Inserted"); 
+      }
+    }
+  );
+});
+
+
 // view hoots in pool 
 app.get('/reply/:user_id', (req, res) => {
   db.query("SELECT * FROM hoots WHERE user_id != ? AND draft = 0 AND reply_count <= 10", [req.params.user_id], (err, result) => {
@@ -57,10 +71,10 @@ app.get('/reply/:user_id', (req, res) => {
 
 app.post('/reply', (req, res) => {
   console.log(req.body);
-  const {id, user_id, post_id, content, sticker} = req.body;
+  const {user_id, post_id, content, sticker} = req.body;
 
   db.query(
-    "INSERT INTO replies (user_id, post_id, content, sticker, viewed) VALUES ( ?, ?, ?, ?, ?)",
+    "INSERT INTO replies (user_id, post_id, content, sticker, viewed) VALUES (?, ?, ?, ?, ?); ",
     [user_id, post_id, content, sticker, 0], (err, result) => {
       if (err) {
         console.log(err)
@@ -68,8 +82,23 @@ app.post('/reply', (req, res) => {
         res.status(200).send("Values Inserted"); 
       }
     }
-  )
+  );
 });
+
+app.put('/reply/:post_id', (req, res) => {
+
+  db.query(
+    "UPDATE hoots SET reply_count = reply_count + 1 WHERE id = ?",
+    [req.params.post_id], (err, result) => {
+      if (err) {
+        console.log(err)
+      } else { 
+        res.status(200).send("Values Inserted"); 
+      }
+    }
+  );
+});
+
 
 // view own hoots
 app.get('/inbox/:user_id', (req, res) => {

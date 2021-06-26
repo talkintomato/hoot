@@ -54,7 +54,7 @@ export default function DraftCard(props) {
   const userId = useContext(UserContext);
 
 
-  useEffect( () =>  {
+  useEffect(() =>  {
     const fetchData = async () => {
       const res = await Axios.get('http://localhost:5000/write/' + userId)
       setUserDrafts(res.data);

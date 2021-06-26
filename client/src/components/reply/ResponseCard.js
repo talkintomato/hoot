@@ -45,14 +45,19 @@ export default function ResponseCard(props) {
 
 
     const writePost = () => {
+        // add post to hoots table
         Axios.post('http://localhost:5000/reply', {
             user_id: userId,
             post_id: props.post.id,
-            // post_id: 14,/
             content: content, 
             sticker: 0,
-        }).then((() => console.log("success")))
+        }).then((() => console.log("success post reply")));
+
+        // update reply_count 
+        Axios.put('http://localhost:5000/reply/' + props.post.id).then((() => console.log("success updating reply count")))
+
     };
+
 
     return (
         <>
