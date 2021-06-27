@@ -1,5 +1,5 @@
 import NavBar from "../Navbar";
-import { Card, Grid, makeStyles, Typography } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import owl1 from "./hootowl.jpg";
 import ProfileCard from "./ProfileCard";
 import ProfileData from "./ProfileData";

@@ -6,6 +6,7 @@ import Profile from "./components/profile/Profile";
 import Reply from "./components/reply/Reply";
 import Stickers from "./components/stickers/Stickers";
 import Write from "./components/write/Write";
+import SignUp from "./components/signup/SignUp";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ProfileData from "./components/profile/ProfileData";
 import { useState } from "react";
@@ -27,8 +28,8 @@ function App() {
     console.log(details);
 
     if (
-      details.username == ProfileData.username &&
-      details.password == ProfileData.password
+      details.username === ProfileData.username &&
+      details.password === ProfileData.password
     ) {
       console.log("Logged in!");
       setUser({
@@ -48,7 +49,7 @@ function App() {
 
   return (
     <div className={classes.root}>
-      {user.password != "" ? (
+      {user.password !== "" ? (
         <Router>
           <NavBar Logout={Logout} />
           <Route path="/inbox" component={Inbox} />
@@ -58,7 +59,16 @@ function App() {
           <Route path="/write" component={Write} />
         </Router>
       ) : (
-        <LoginCard Login={Login} error={error} />
+        <Router>
+          <Switch>
+            <Route
+              path="/"
+              exact
+              render={() => <LoginCard Login={Login} error={error} />}
+            />
+            <Route path="/signup" exact component={SignUp} />
+          </Switch>
+        </Router>
       )}
     </div>
   );

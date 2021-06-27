@@ -4,6 +4,14 @@ import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory,
+} from "react-router-dom";
+import SignUp from "../signup/SignUp";
 
 const useStyles = makeStyles({
   root: {
@@ -32,6 +40,7 @@ const useStyles = makeStyles({
   button: {
     padding: 10,
     margin: 10,
+    width: "100%",
   },
 });
 
@@ -39,6 +48,7 @@ export default function SimpleCard({ Login, error }) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
   const [details, setDetails] = useState({ username: "", password: "" });
+  let history = useHistory();
 
   const submit = (e) => {
     e.preventDefault();
@@ -81,14 +91,16 @@ export default function SimpleCard({ Login, error }) {
         >
           Login
         </Button>
-        <Button
-          variant="contained"
-          size="medium"
-          color="primary"
-          className={classes.button}
-        >
-          Sign Up
-        </Button>
+        <Link to="/signup">
+          <Button
+            variant="contained"
+            size="medium"
+            color="primary"
+            className={classes.button}
+          >
+            Sign Up
+          </Button>
+        </Link>
       </form>
     </Card>
   );
