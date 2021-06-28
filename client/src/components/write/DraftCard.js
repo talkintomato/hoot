@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../UserContext';
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
@@ -29,16 +29,16 @@ const useStyles = makeStyles({
     width: '100%',
     backgroundColor: "#ffff",
   },
-  messagePrev : {
+  messagePrev: {
     width: '100%',
     margin: "20px",
     padding: "10px",
   },
-  compose : {
+  compose: {
     height: "100%",
     margin: "10px",
   },
-  header : {
+  header: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -47,39 +47,38 @@ const useStyles = makeStyles({
 
 export default function DraftCard(props) {
   const classes = useStyles();
-  console.log(props.data);
-  
+
   const [userDrafts, setUserDrafts] = useState([]);
-  const [loaded, setLoaded] = useState(false); 
+  const [loaded, setLoaded] = useState(false);
   const userId = useContext(UserContext);
 
 
-  useEffect(() =>  {
+  useEffect(() => {
     const fetchData = async () => {
       const res = await Axios.get('http://localhost:5000/write/' + userId)
       setUserDrafts(res.data);
       setLoaded(true);
-      console.log("after" , userDrafts);
+      console.log("after", userDrafts);
     }
     fetchData();
-    }, [])
+  }, [])
 
 
 
   return (
     <>
-    <Card className={classes.root}>
-      <CardContent className={classes.header}>
-        <Typography className={classes.title} gutterBottom>
-          Drafts
-        </Typography>
-        <Button variant="contained" className= {classes.compose}> Compose </Button>
-      </CardContent>
-      <Divider className={classes.divider}/> 
-        {userDrafts.map((users) => (
-          <Button variant="contained" className={classes.messagePrev}> {users.content} </Button>
+      <Card className={classes.root}>
+        <CardContent className={classes.header}>
+          <Typography className={classes.title} gutterBottom>
+            Drafts
+          </Typography>
+          <Button variant="contained" className={classes.compose}> Compose </Button>
+        </CardContent>
+        <Divider className={classes.divider} />
+        {userDrafts.map((drafts) => (
+          <Button variant="contained" className={classes.messagePrev} onClick={() => props.onClick(drafts.id)}> {drafts.content} </Button>
         ))}
-    </Card>
+      </Card>
     </>
   );
 }

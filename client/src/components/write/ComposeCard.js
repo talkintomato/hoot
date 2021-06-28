@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -57,12 +57,13 @@ const useStyles = makeStyles({
 });
 
 
-export default function ComposeCard() {
+export default function ComposeCard(props) {
     const classes = useStyles();
     const [content, setContent] = useState("");
     const UserId = useContext(UserContext);
     const [openDraft, setOpenDraft] = React.useState(false);
     const [openPost, setOpenPost] = React.useState(false);
+    const [loaded, setloaded] = useState(false);
 
     const handleDraftClickOpen = () => {
         setOpenDraft(true);
@@ -81,6 +82,20 @@ export default function ComposeCard() {
         setOpenPost(false);
         setContent("");
     };
+    // get draft function 
+    useEffect(() => {
+        if (props.draft_Id != null) {
+            console.log(props)
+            const fetchData = async () => {
+                await Axios.get('http://localhost:5000/draft/' + props.draft_Id).then(
+                    res => {setContent(res.data[0].content)});
+                console.log("draft:", content);
+            }
+            fetchData();
+        } 
+        setloaded(true);
+        console.log(loaded)
+    }, [])
 
     const writePost = () => {
         if (content.trim().length > 0) {
@@ -122,13 +137,13 @@ export default function ComposeCard() {
                     </Typography>
                 </CardContent>
                 <CardContent>
-                    <form>
-                        <textarea rows="6" onChange={(event) => { setContent(event.target.value) }} value={content}>
+                    {loaded ? <form>
+                        <textarea rows="6" onChange={(event) => {setContent(event.target.value)}} value={content}>
                         </textarea>
-                    </form>
+                    </form> : <h1> loading...</h1>}
                 </CardContent>
             </Card>
-            <Button variant="contained" className={classes.button}>
+            <Button variant="contained" className={classes.button} onClick={() => { props.trueState() }}>
                 Back
             </Button>
             <Button variant="contained" className={classes.button} onClick={saveDraft}> Save Draft </Button>

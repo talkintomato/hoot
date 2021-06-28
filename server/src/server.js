@@ -57,6 +57,18 @@ app.put('/write/:id', (req, res) => {
   );
 });
 
+// get specific drafts 
+app.get('/draft/:post_id', (req, res) => {
+  db.query("SELECT * FROM hoots WHERE id = ?", [req.params.post_id], (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.status(200).send(result)
+      console.log(result);
+    }
+  });
+});
+
 
 // view hoots in pool 
 app.get('/reply/:user_id', (req, res) => {
