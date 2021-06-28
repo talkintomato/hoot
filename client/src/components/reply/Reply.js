@@ -41,6 +41,22 @@ function Reply() {
     }
     fetchData();
     }, [])
+
+    function increment() {
+      if (index == postPool.length - 1) {
+        setindex(0);
+      } else {
+        setindex(index + 1);
+      }
+    } 
+
+    function decrement() {
+      if (index == 0) {
+        setindex(postPool.length - 1);
+      } else {
+        setindex(index - 1);
+      }
+    } 
   
 
     // console.log("after" , postPool);
@@ -54,9 +70,9 @@ function Reply() {
         {loaded? postPool[index].content: <Typography> No hoots right now! </Typography>}
        </Typography>
       </Card>
-      <Button variant="contained" className={classes.button} onClick={()=> {setindex(index-1);}}> Previous </Button>
+      <Button variant="contained" className={classes.button} onClick={() => decrement()}> Previous </Button>
       <Button variant="contained" className={classes.button} > Reply </Button>
-      <Button variant="contained" className={classes.button} onClick={()=> {setindex(index+1);}}> Next </Button>
+      <Button variant="contained" className={classes.button} onClick={() => increment()}> Next </Button>
 
     <div></div>
 

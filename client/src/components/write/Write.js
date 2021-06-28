@@ -2,15 +2,21 @@
 import data from '../../data';
 import ComposeCard from './ComposeCard';
 import DraftCard from './DraftCard';
+import { useState } from 'react';
 
 
 
 function Write() {
+  const [state, setstate] = useState(true)
+
   return (
     <>
      <h1> Write </h1>
-     <DraftCard data={data}> </DraftCard>
+     { state ? 
+     <DraftCard data={data}> </DraftCard> :
      <ComposeCard></ComposeCard> 
+}
+<button onClick={() => setstate(!state)}></button>
      </>
   );
 }

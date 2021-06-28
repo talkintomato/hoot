@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../UserContext';
 import { Button, Card, Grid, makeStyles, TextField, Typography } from '@material-ui/core'
 import { useState, useEffect } from 'react';
@@ -46,16 +46,20 @@ export default function ResponseCard(props) {
 
     const writePost = () => {
         // add post to hoots table
-        Axios.post('http://localhost:5000/reply', {
-            user_id: userId,
-            post_id: props.post.id,
-            content: content, 
-            sticker: 0,
-        }).then((() => console.log("success post reply")));
+        if (content.trim().length > 0) {
 
-        // update reply_count 
-        Axios.put('http://localhost:5000/reply/' + props.post.id).then((() => console.log("success updating reply count")))
+            Axios.post('http://localhost:5000/reply', {
+                user_id: userId,
+                post_id: props.post.id,
+                content: content,
+                sticker: 0,
+            }).then((() => console.log("success post reply")));
 
+            // update reply_count 
+            Axios.put('http://localhost:5000/reply/' + props.post.id).then((() => console.log("success updating reply count")))
+
+            setContent("");
+        }
     };
 
 
@@ -66,7 +70,7 @@ export default function ResponseCard(props) {
                     <Card className={classes.msg}>
                         < Typography className={classes.msgText}>
                             {props.post.content}
-                            </Typography>
+                        </Typography>
                     </Card>
                 </Grid>
                 <Grid item sm={6}>
@@ -78,7 +82,8 @@ export default function ResponseCard(props) {
                             rows={10}
                             fullWidth
                             variant="filled"
-                            onChange={(event) => {setContent(event.target.value);}}
+                            onChange={(event) => { setContent(event.target.value); }}
+                            value={content}
                         />
                     </Card>
                 </Grid>
