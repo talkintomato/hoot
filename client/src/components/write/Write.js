@@ -16,7 +16,7 @@ function Write() {
      <DraftCard onClick={value => {setdraftId(value); setstate(false);}}> </DraftCard> :
      <ComposeCard trueState={() => setstate(true)} draft_Id={draftId}> </ComposeCard> 
 }
-<button onClick={() => setstate(!state)}></button>
+{/* <button onClick={() => setstate(!state)}></button> */}
      </>
   );
 }

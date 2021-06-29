@@ -1,9 +1,10 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../UserContext';
 import { Button, Card, makeStyles, Typography } from "@material-ui/core";
 import ResponseCard from './ResponseCard';
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
+import PostCard from "./postCard";
 
 
 const useStyles = makeStyles({
@@ -30,55 +31,59 @@ function Reply() {
 
   const userId = useContext(UserContext);
   const [postPool, setpostPool] = useState([]);
-  const [loaded, setLoaded] = useState(false); 
+  const [loaded, setLoaded] = useState(false);
   const [index, setindex] = useState(0);
+  const [reply, setReply] = useState(false)
 
-  useEffect(() =>  {
+  useEffect(() => {
     const fetchData = async () => {
       const res = await Axios.get('http://localhost:5000/reply/' + userId)
       setpostPool(res.data);
       setLoaded(true);
     }
     fetchData();
-    }, [])
+  }, [])
 
-    function increment() {
-      if (index == postPool.length - 1) {
-        setindex(0);
-      } else {
-        setindex(index + 1);
-      }
-    } 
+  function increment() {
+    if (index == postPool.length - 1) {
+      setindex(0);
+    } else {
+      setindex(index + 1);
+    }
+  }
 
-    function decrement() {
-      if (index == 0) {
-        setindex(postPool.length - 1);
-      } else {
-        setindex(index - 1);
-      }
-    } 
-  
+  function decrement() {
+    if (index == 0) {
+      setindex(postPool.length - 1);
+    } else {
+      setindex(index - 1);
+    }
+  }
 
-    // console.log("after" , postPool);
+  if (!loaded) {
+    return <h1> loading </h1>
+  }
+
+  else {
+    if (!reply) {
+      return (
+        <>
+          <h1> Reply </h1>
+          <PostCard post={postPool} increment={() => increment()} decrement={() => decrement()} index={index} reply={() => setReply(true)}> </PostCard>
+        </>
+      )
+    }
 
 
-  return (
-    <>
-      <h1> Reply </h1>
-      <Card className={classes.root}>
-        <Typography className={classes.title}>
-        {loaded? postPool[index].content: <Typography> No hoots right now! </Typography>}
-       </Typography>
-      </Card>
-      <Button variant="contained" className={classes.button} onClick={() => decrement()}> Previous </Button>
-      <Button variant="contained" className={classes.button} > Reply </Button>
-      <Button variant="contained" className={classes.button} onClick={() => increment()}> Next </Button>
+    return (
+      <>
+        <h1> Reply </h1>
+        <div></div>
+        <ResponseCard post={postPool[index]} back={() => setReply(false)}> </ResponseCard>
+      </>
+    );
 
-    <div></div>
-
-    {loaded ? <ResponseCard post={postPool[index]}> </ResponseCard> : null}
-    </>
-  );
+  }
 }
 
 export default Reply;

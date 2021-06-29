@@ -72,7 +72,7 @@ export default function DraftCard(props) {
           <Typography className={classes.title} gutterBottom>
             Drafts
           </Typography>
-          <Button variant="contained" className={classes.compose}> Compose </Button>
+          <Button variant="contained" className={classes.compose} onClick={() => props.onClick(null)}> Compose </Button>
         </CardContent>
         <Divider className={classes.divider} />
         {userDrafts.map((drafts) => (

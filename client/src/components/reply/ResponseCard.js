@@ -88,7 +88,7 @@ export default function ResponseCard(props) {
                     </Card>
                 </Grid>
             </Grid>
-            <Button variant="contained" className={classes.button}> Back </Button>
+            <Button variant="contained" className={classes.button} onClick={() => props.back()}> Back </Button>
             <Button variant="contained" className={classes.button} onClick={writePost}> Hoot </Button>
         </>
     )
