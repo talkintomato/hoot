@@ -72,17 +72,15 @@ function Reply() {
           <PostCard post={postPool} increment={() => increment()} decrement={() => decrement()} index={index} reply={() => setReply(true)}> </PostCard>
         </>
       )
+    } else {
+      return (
+        <>
+          <h1> Reply </h1>
+          <div></div>
+          <ResponseCard post={postPool[index]} back={() => setReply(false)}> </ResponseCard>
+        </>
+      );
     }
-
-
-    return (
-      <>
-        <h1> Reply </h1>
-        <div></div>
-        <ResponseCard post={postPool[index]} back={() => setReply(false)}> </ResponseCard>
-      </>
-    );
-
   }
 }
 

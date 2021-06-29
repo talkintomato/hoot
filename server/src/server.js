@@ -81,7 +81,7 @@ app.delete('/draft/:post_id', (req, res) => {
   });
 });
 
-// update draft to live hoot (not implemented)
+// update draft to live hoot 
 app.put('/draft/:id', (req, res) => {
   db.query(
     "UPDATE hoots SET draft = 1, content = ? WHERE id = ?", [req.body.content, req.params.id], (err, result) => {
@@ -136,7 +136,6 @@ app.put('/reply/:post_id', (req, res) => {
   );
 });
 
-
 // view own hoots
 app.get('/inbox/:user_id', (req, res) => {
   const user_id = req.params.user_id;
@@ -148,6 +147,19 @@ app.get('/inbox/:user_id', (req, res) => {
     }
   });
 });
+
+// get replies to specific post 
+app.get('/inbox/replies/:post_id', (req, res) => {
+  const post_id = req.params.post_id;
+  db.query("SELECT * FROM replies WHERE post_id = ?", [post_id], (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(result)
+    }
+  });
+});
+
 
 //add users 
 app.post('/users', (req, res) => {

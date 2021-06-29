@@ -1,8 +1,5 @@
-import React, { useContext } from 'react';
-import { UserContext } from '../UserContext';
+import React from 'react';
 import { Button, Card, makeStyles, Typography } from "@material-ui/core";
-import { useState, useEffect } from 'react';
-import Axios from 'axios';
 
 
 const useStyles = makeStyles({
@@ -27,19 +24,11 @@ const useStyles = makeStyles({
 function PostCard(props) {
     const classes = useStyles();
 
-    const userId = useContext(UserContext);
-    const [loaded, setLoaded] = useState(true);
-    const [postPool, setpostPool] = useState(props.post);
-
-
-
-
-
     return (
         <>
             <Card className={classes.root}>
                 <Typography className={classes.title}>
-                    {postPool[props.index].content}
+                    {props.post[props.index].content}
                 </Typography>
             </Card>
             <Button variant="contained" className={classes.button} onClick={() => props.decrement()}> Previous </Button>

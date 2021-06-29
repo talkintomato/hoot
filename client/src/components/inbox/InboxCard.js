@@ -54,7 +54,7 @@ export default function InboxCard(props) {
     const [userPosts, setUserPosts] = useState([]);
     const [loaded, setLoaded] = useState(false); 
   
-    useEffect( () =>  {
+    useEffect(() =>  {
       const fetchData = async () => {
         const res = await Axios.get('http://localhost:5000/inbox/' + userId)
         setUserPosts(res.data);
@@ -74,8 +74,8 @@ export default function InboxCard(props) {
             </CardContent>
             <CardContent>
                 <Divider className={classes.divider} />
-                {userPosts.map((users) => (
-                    <Button  variant="contained" className={classes.messagePrev} fullWidth endIcon={<SaveIcon />}> {users.content + " " + users.reply_count} </Button>
+                {userPosts.map((posts) => (
+                    <Button  variant="contained" className={classes.messagePrev} fullWidth onClick={() => props.selectIndex(posts.id)} endIcon={<SaveIcon />} > {posts.content + " " + posts.reply_count} </Button>
                 ))}
             </CardContent>
         </Card>
