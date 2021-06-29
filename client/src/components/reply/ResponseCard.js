@@ -62,7 +62,6 @@ export default function ResponseCard(props) {
         }
     };
 
-
     return (
         <>
             <Grid container>

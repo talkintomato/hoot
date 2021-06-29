@@ -71,7 +71,6 @@ export default function InboxCard(props) {
                 <Typography className={classes.title} gutterBottom>
                     Hoots
         </Typography>
-                <Button variant="contained" className={classes.compose}> Compose </Button>
             </CardContent>
             <CardContent>
                 <Divider className={classes.divider} />

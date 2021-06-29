@@ -47,7 +47,7 @@ app.get('/write/:user_id', (req, res) => {
 // update a draft to a post (not implemented)
 app.put('/write/:id', (req, res) => {
   db.query(
-    "UPDATE hoots SET drafts = 1, content=? WHERE id = ?", [req.body.content], (err, result) => {
+    "UPDATE hoots SET draft = 0, content = ? WHERE id = ?", [req.body.content, req.params.id], (err, result) => {
       if (err) {
         console.log(err)
       } else { 
@@ -67,6 +67,31 @@ app.get('/draft/:post_id', (req, res) => {
       console.log(result);
     }
   });
+});
+
+// delete draft 
+app.delete('/draft/:post_id', (req, res) => {
+  db.query("DELETE FROM hoots WHERE id = ?", [req.params.post_id], (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.status(200).send(result)
+      console.log("deleted " + req.params.post_id);
+    }
+  });
+});
+
+// update draft to live hoot (not implemented)
+app.put('/draft/:id', (req, res) => {
+  db.query(
+    "UPDATE hoots SET draft = 1, content = ? WHERE id = ?", [req.body.content, req.params.id], (err, result) => {
+      if (err) {
+        console.log(err)
+      } else { 
+        res.status(200).send("Values Inserted"); 
+      }
+    }
+  );
 });
 
 

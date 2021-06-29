@@ -64,6 +64,7 @@ export default function ComposeCard(props) {
     const [openDraft, setOpenDraft] = React.useState(false);
     const [openPost, setOpenPost] = React.useState(false);
     const [loaded, setloaded] = useState(false);
+    const [draft, setDraft] = useState(false)
 
     const handleDraftClickOpen = () => {
         setOpenDraft(true);
@@ -82,47 +83,60 @@ export default function ComposeCard(props) {
         setOpenPost(false);
         setContent("");
     };
+
     // get draft function 
     useEffect(() => {
         if (props.draft_Id != null) {
             console.log(props)
             const fetchData = async () => {
                 await Axios.get('http://localhost:5000/draft/' + props.draft_Id).then(
-                    res => {setContent(res.data[0].content)});
+                    res => { setContent(res.data[0].content) });
                 console.log("draft:", content);
             }
             fetchData();
-        } 
+            setDraft(true);
+        }
         setloaded(true);
-        console.log(loaded)
     }, [])
 
     const writePost = () => {
         if (content.trim().length > 0) {
-            Axios.post('http://localhost:5000/write', {
-                id: 0,
-                user_id: UserId,
-                content: content,
-                draft: false,
-                reply_count: 0,
-                time: Date(),
-            }).then((() => console.log("success")));
-
+            if (!draft) {
+                Axios.post('http://localhost:5000/write', {
+                    user_id: UserId,
+                    content: content,
+                    draft: false,
+                    reply_count: 0,
+                    time: Date(),
+                }).then((() => console.log("success")));
+            } else {
+                Axios.put('http://localhost:5000/write/' + props.draft_Id, {
+                    content: content,
+                }).then((() => console.log("success")));
+            }
             handlePostClickOpen();
         }
     };
 
     const saveDraft = () => {
-        Axios.post('http://localhost:5000/write', {
-            id: 0,
-            user_id: UserId,
-            content: content,
-            draft: true,
-            reply_count: 0,
-            time: Date(),
-        }).then((() => console.log("success")));
+        if (content.trim().length > 0) {
+            if (!draft) {
+                Axios.post('http://localhost:5000/write', {
+                    id: 0,
+                    user_id: UserId,
+                    content: content,
+                    draft: true,
+                    reply_count: 0,
+                    time: Date(),
+                }).then((() => console.log("success")));
+            } else {
+                Axios.put('http://localhost:5000/draft/' + props.draft_Id, {
+                    content: content,
+                }).then((() => console.log("success")));
+            }
 
-        handleDraftClickOpen();
+            handleDraftClickOpen();
+        }
     };
 
     // const display = () => {console.log(content)};
@@ -138,7 +152,7 @@ export default function ComposeCard(props) {
                 </CardContent>
                 <CardContent>
                     {loaded ? <form>
-                        <textarea rows="6" onChange={(event) => {setContent(event.target.value)}} value={content}>
+                        <textarea rows="6" onChange={(event) => { setContent(event.target.value) }} value={content}>
                         </textarea>
                     </form> : <h1> loading...</h1>}
                 </CardContent>
