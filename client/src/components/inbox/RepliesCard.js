@@ -30,19 +30,19 @@ function RepliesCard(props) {
 
     function increment() {
         if (index == repliesPool.length - 1) {
-          setIndex(0);
+            setIndex(0);
         } else {
-          setIndex(index + 1);
+            setIndex(index + 1);
         }
-      }
-    
-      function decrement() {
+    }
+
+    function decrement() {
         if (index == 0) {
-          setIndex(repliesPool.length - 1);
+            setIndex(repliesPool.length - 1);
         } else {
-          setIndex(index - 1);
+            setIndex(index - 1);
         }
-      }
+    }
 
 
     useEffect(() => {
@@ -58,20 +58,24 @@ function RepliesCard(props) {
         return (
             <>
                 <Card className={classes.root}>
+                <Typography className={classes.title}>
+                        {(index + 1) + " / " + (repliesPool.length)}
+                    </Typography>
                     <Typography className={classes.title}>
                         {repliesPool[index].content}
                     </Typography>
                 </Card>
-                <Button variant="contained" className={classes.button} > back  </Button>
+                <Button variant="contained" className={classes.button} onClick={() => props.back()}> back  </Button>
                 <Button variant="contained" className={classes.button} onClick={() => decrement()}> Previous </Button>
                 <Button variant="contained" className={classes.button} onClick={() => increment()}> Next </Button>
 
-                <div></div>
-                <button onClick={() => console.log(repliesPool[0].content)}> logger </button>
             </>
         );
     } else {
-        return <h1> No replies found  </h1>
+        return <>
+            <h1> No replies found  </h1>
+            <Button variant="contained" className={classes.button} onClick={() => props.back()}> back  </Button>
+        </>
     }
 }
 
