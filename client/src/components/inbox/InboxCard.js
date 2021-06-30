@@ -59,7 +59,6 @@ export default function InboxCard(props) {
         const res = await Axios.get('http://localhost:5000/inbox/' + userId)
         setUserPosts(res.data);
         setLoaded(true);
-        console.log("after" , userPosts);
       }
       fetchData();
       }, [])
@@ -75,9 +74,10 @@ export default function InboxCard(props) {
             <CardContent>
                 <Divider className={classes.divider} />
                 {userPosts.map((posts) => (
-                    <Button  variant="contained" className={classes.messagePrev} fullWidth onClick={() => props.selectIndex(posts.id)} endIcon={<SaveIcon />} > {posts.content + " " + posts.reply_count} </Button>
+                    <Button  variant="contained" className={classes.messagePrev} fullWidth onClick={() => props.selectIndex(posts.id)} endIcon={posts.viewed == 1? <SaveIcon />: null} > {posts.content + " " + posts.reply_count} </Button>
                 ))}
             </CardContent>
+            {/* <button onClick={console.log(userPosts)}> </button> */}
         </Card>
     );
 }

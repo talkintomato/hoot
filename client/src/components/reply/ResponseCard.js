@@ -49,14 +49,11 @@ export default function ResponseCard(props) {
         if (content.trim().length > 0) {
 
             Axios.post('http://localhost:5000/reply', {
-                user_id: userId,
-                post_id: props.post.id,
+                replier_id: userId,
+                post_id: props.post.post_id,
                 content: content,
-                sticker: 0,
+                sticker: 0
             }).then((() => console.log("success post reply")));
-
-            // update reply_count 
-            Axios.put('http://localhost:5000/reply/' + props.post.id).then((() => console.log("success updating reply count")))
 
             setContent("");
         }

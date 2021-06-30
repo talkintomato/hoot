@@ -19,11 +19,11 @@ app.use(express.urlencoded({ extended: true }));
 // when user creates a hoot 
 app.post('/write', (req, res) => {
   console.log(req.body);
-  const {id, user_id, content, draft, reply_count, time} = req.body;
+  const { user_id, content, draft} = req.body;
 
   db.query(
-    "INSERT INTO hoots (id, user_id, content, draft, reply_count, time) VALUES (?,?,?,?,?,?)",
-    [id, user_id, content, draft, reply_count, time], (err, result) => {
+    "INSERT INTO hoots ( user_id, content, draft) VALUES (?,?,?)",
+    [ user_id, content, draft], (err, result) => {
       if (err) {
         console.log(err)
       } else { 
@@ -35,7 +35,7 @@ app.post('/write', (req, res) => {
 
 // get drafts 
 app.get('/write/:user_id', (req, res) => {
-  db.query("SELECT * FROM hoots WHERE user_id = ? AND draft=1", [req.params.user_id], (err, result) => {
+  db.query("SELECT * FROM hoots WHERE user_id = ? AND draft = 1", [req.params.user_id], (err, result) => {
     if (err) {
       console.log(err)
     } else {
@@ -44,10 +44,10 @@ app.get('/write/:user_id', (req, res) => {
   });
 });
 
-// update a draft to a post (not implemented)
+// update a draft to a post
 app.put('/write/:id', (req, res) => {
   db.query(
-    "UPDATE hoots SET draft = 0, content = ? WHERE id = ?", [req.body.content, req.params.id], (err, result) => {
+    "UPDATE hoots SET draft = 0, content = ? WHERE post_id = ?", [req.body.content, req.params.id], (err, result) => {
       if (err) {
         console.log(err)
       } else { 
@@ -59,7 +59,8 @@ app.put('/write/:id', (req, res) => {
 
 // get specific drafts 
 app.get('/draft/:post_id', (req, res) => {
-  db.query("SELECT * FROM hoots WHERE id = ?", [req.params.post_id], (err, result) => {
+  console.log("request made");
+  db.query("SELECT * FROM hoots where post_id = ?;", [req.params.post_id], (err, result) => {
     if (err) {
       console.log(err)
     } else {
@@ -71,7 +72,7 @@ app.get('/draft/:post_id', (req, res) => {
 
 // delete draft 
 app.delete('/draft/:post_id', (req, res) => {
-  db.query("DELETE FROM hoots WHERE id = ?", [req.params.post_id], (err, result) => {
+  db.query("DELETE FROM hoots WHERE post_id = ?", [req.params.post_id], (err, result) => {
     if (err) {
       console.log(err)
     } else {
@@ -81,23 +82,9 @@ app.delete('/draft/:post_id', (req, res) => {
   });
 });
 
-// update draft to live hoot 
-app.put('/draft/:id', (req, res) => {
-  db.query(
-    "UPDATE hoots SET draft = 1, content = ? WHERE id = ?", [req.body.content, req.params.id], (err, result) => {
-      if (err) {
-        console.log(err)
-      } else { 
-        res.status(200).send("Values Inserted"); 
-      }
-    }
-  );
-});
-
-
 // view hoots in pool 
 app.get('/reply/:user_id', (req, res) => {
-  db.query("SELECT * FROM hoots WHERE user_id != ? AND draft = 0 AND reply_count <= 10", [req.params.user_id], (err, result) => {
+  db.query("SELECT * FROM hoots WHERE user_id != ? AND draft = 0", [req.params.user_id], (err, result) => {
     if (err) {
       console.log(err)
     } else {
@@ -107,26 +94,11 @@ app.get('/reply/:user_id', (req, res) => {
 });
 
 app.post('/reply', (req, res) => {
-  console.log(req.body);
-  const {user_id, post_id, content, sticker} = req.body;
+  const {replier_id, post_id, content, sticker} = req.body;
 
   db.query(
-    "INSERT INTO replies (user_id, post_id, content, sticker, viewed) VALUES (?, ?, ?, ?, ?); ",
-    [user_id, post_id, content, sticker, 0], (err, result) => {
-      if (err) {
-        console.log(err)
-      } else { 
-        res.status(200).send("Values Inserted"); 
-      }
-    }
-  );
-});
-
-app.put('/reply/:post_id', (req, res) => {
-
-  db.query(
-    "UPDATE hoots SET reply_count = reply_count + 1 WHERE id = ?",
-    [req.params.post_id], (err, result) => {
+    "INSERT INTO replies (replier_id, post_id, content, sticker) VALUES (?, ?, ?, ?); ",
+    [replier_id, post_id, content, sticker], (err, result) => {
       if (err) {
         console.log(err)
       } else { 
@@ -167,8 +139,8 @@ app.post('/users', (req, res) => {
   const {id, email, username} = req.body;
 
   db.query(
-    "INSERT INTO users (id, email, username, post_count, reply_count, sticker_count) VALUES (?, ?, ?, ?, ?, ?)",
-    [id, email, username, 0, 0, 0], (err, result) => {
+    "INSERT INTO users (id, email, username) VALUES (?, ?, ?)",
+    [user_id, email, username], (err, result) => {
       if (err) {
         console.log(err)
       } else { 
@@ -180,7 +152,7 @@ app.post('/users', (req, res) => {
 
 //get user info
 app.get('/users/:id', (req, res) => {
-  db.query("SELECT * FROM users WHERE id = ?", [req.params.id], (err, result) => {
+  db.query("SELECT * FROM users WHERE user_id = ?", [req.params.id], (err, result) => {
     if (err) {
       console.log(err)
     } else {

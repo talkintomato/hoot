@@ -99,6 +99,8 @@ export default function ComposeCard(props) {
         setloaded(true);
     }, [])
 
+
+    // creatw new entry into hoot 
     const writePost = () => {
         if (content.trim().length > 0) {
             if (!draft) {
@@ -106,8 +108,6 @@ export default function ComposeCard(props) {
                     user_id: UserId,
                     content: content,
                     draft: false,
-                    reply_count: 0,
-                    time: Date(),
                 }).then((() => console.log("success")));
             } else {
                 Axios.put('http://localhost:5000/write/' + props.draft_Id, {
@@ -118,16 +118,14 @@ export default function ComposeCard(props) {
         }
     };
 
+    // updates or post the draft
     const saveDraft = () => {
         if (content.trim().length > 0) {
             if (!draft) {
                 Axios.post('http://localhost:5000/write', {
-                    id: 0,
                     user_id: UserId,
                     content: content,
                     draft: true,
-                    reply_count: 0,
-                    time: Date(),
                 }).then((() => console.log("success")));
             } else {
                 Axios.put('http://localhost:5000/draft/' + props.draft_Id, {

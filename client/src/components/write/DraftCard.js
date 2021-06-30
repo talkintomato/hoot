@@ -75,9 +75,13 @@ export default function DraftCard(props) {
           <Button variant="contained" className={classes.compose} onClick={() => props.onClick(null)}> Compose </Button>
         </CardContent>
         <Divider className={classes.divider} />
-        {userDrafts.map((drafts) => (
-          <Button variant="contained" className={classes.messagePrev} onClick={() => props.onClick(drafts.id)}> {drafts.content} </Button>
-        ))}
+        {(userDrafts.length > 0) ?
+          userDrafts.map((drafts) => (
+            <Button variant="contained" className={classes.messagePrev} onClick={() => props.onClick(drafts.post_id)}> {drafts.content} </Button>
+          ))
+          : <h1> No Drafts Found </h1>
+        }
+
       </Card>
     </>
   );
