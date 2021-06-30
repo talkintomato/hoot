@@ -57,9 +57,11 @@ export default function CustomizedTabs({ Logout }) {
         <Link to="./profile">
           <StyledTab label="Profile" />
         </Link>
-        <Button onClick={Logout}>
-          <StyledTab label="Logout" />
-        </Button>
+        <Link to="./">
+          <Button onClick={Logout}>
+            <StyledTab label="Logout" />
+          </Button>
+        </Link>
         <Typography className={classes.padding} />
       </div>
     </div>
