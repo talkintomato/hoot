@@ -77,10 +77,9 @@ export default function InboxCard(props) {
             <CardContent>
                 <Divider className={classes.divider} />
                 {userPosts.map((posts) => (
-                    <Button  variant="contained" className={classes.messagePrev} fullWidth onClick={() => props.selectIndex(posts.post_id)} endIcon={posts.unread > 0? <Avatar classname={classes.unread}> { posts.unread }</Avatar> : null} > {posts.content} </Button>
+                    <Button  variant="contained" className={classes.messagePrev} fullWidth onClick={() => props.selectIndex(posts.id)} endIcon={posts.unread > 0? <Avatar classname={classes.unread}> { posts.unread }</Avatar> : null} > {posts.content} </Button>
                 ))}
             </CardContent>
-            {/* <button onClick={()=>console.log(userPosts)}> </button> */}
         </Card>
     );
 }

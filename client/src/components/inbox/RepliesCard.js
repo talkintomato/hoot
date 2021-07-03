@@ -43,7 +43,7 @@ function RepliesCard(props) {
         if (repliesPool.length > 0)
             if (repliesPool[index].unread === 1) {
                 const fetchData = async () => {
-                    const res = await Axios.put('http://localhost:5000/inbox/replies/' + repliesPool[index].reply_id)
+                    const res = await Axios.put('http://localhost:5000/inbox/replies/' + repliesPool[index].id)
                     console.log(index + " marked as read");
                 }
                 fetchData();

@@ -50,7 +50,7 @@ export default function ResponseCard(props) {
 
             Axios.post('http://localhost:5000/reply', {
                 replier_id: userId,
-                post_id: props.post.post_id,
+                post_id: props.post.id,
                 content: content,
                 sticker: 0
             }).then((() => console.log("success post reply")));

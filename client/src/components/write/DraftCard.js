@@ -77,7 +77,7 @@ export default function DraftCard(props) {
         <Divider className={classes.divider} />
         {(userDrafts.length > 0) ?
           userDrafts.map((drafts) => (
-            <Button variant="contained" className={classes.messagePrev} onClick={() => props.onClick(drafts.post_id)}> {drafts.content} </Button>
+            <Button variant="contained" className={classes.messagePrev} onClick={() => props.onClick(drafts.id)}> {drafts.content} </Button>
           ))
           : <h1> No Drafts Found </h1>
         }

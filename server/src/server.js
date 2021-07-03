@@ -7,22 +7,32 @@ const cors = require('cors')
 app.use(cors());
 
 const db = mysql.createConnection({
-  user: 'root',
-  host: 'localhost',
-  password: 'password',
+  user: 'admin',
+  host: 'aws-hoot.cx8e7bsaucip.us-east-2.rds.amazonaws.com',
+  password: 'ilovedblk',
   database: 'hoot',
 })
+
+db.connect(function(err) {
+  if (err) {
+    console.error('Database connection failed: ' + err.stack);
+    return;
+  }
+
+  console.log('Connected to database.');
+});
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// when user creates a hoot 
+// when user creates a posts 
 app.post('/write', (req, res) => {
   console.log(req.body);
   const { user_id, content, draft } = req.body;
 
   db.query(
-    "INSERT INTO hoots ( user_id, content, draft) VALUES (?,?,?)",
+    "INSERT INTO posts ( user_id, content, draft) VALUES (?,?,?)",
     [user_id, content, draft], (err, result) => {
       if (err) {
         console.log(err)
@@ -35,7 +45,7 @@ app.post('/write', (req, res) => {
 
 // get drafts 
 app.get('/write/:user_id', (req, res) => {
-  db.query("SELECT * FROM hoots WHERE user_id = ? AND draft = 1", [req.params.user_id], (err, result) => {
+  db.query("SELECT * FROM posts WHERE user_id = ? AND draft = 1", [req.params.user_id], (err, result) => {
     if (err) {
       console.log(err)
     } else {
@@ -44,10 +54,10 @@ app.get('/write/:user_id', (req, res) => {
   });
 });
 
-// update a draft to a post
+// update a draft 
 app.put('/write/:id', (req, res) => {
-  db.query("UPDATE hoots SET draft = 0, content = ? WHERE id = ?",
-    [req.body.content, req.params.id], (err, result) => {
+  db.query("UPDATE posts SET draft = ?, content = ? WHERE id = ?",
+    [req.body.draft, req.body.content, req.params.id], (err, result) => {
       if (err) {
         console.log(err)
       } else {
@@ -57,10 +67,11 @@ app.put('/write/:id', (req, res) => {
   );
 });
 
+
 // get specific drafts 
 app.get('/draft/:post_id', (req, res) => {
   console.log("request made");
-  db.query("SELECT * FROM hoots where id = ?;", [req.params.post_id], (err, result) => {
+  db.query("SELECT * FROM posts where id = ?;", [req.params.post_id], (err, result) => {
     if (err) {
       console.log(err)
     } else {
@@ -72,7 +83,7 @@ app.get('/draft/:post_id', (req, res) => {
 
 // delete draft 
 app.delete('/draft/:post_id', (req, res) => {
-  db.query("DELETE FROM hoots WHERE id = ?", [req.params.post_id], (err, result) => {
+  db.query("DELETE FROM posts WHERE id = ?", [req.params.post_id], (err, result) => {
     if (err) {
       console.log(err)
     } else {
@@ -82,9 +93,9 @@ app.delete('/draft/:post_id', (req, res) => {
   });
 });
 
-// view hoots in pool 
+// view posts in pool 
 app.get('/reply/:user_id', (req, res) => {
-  db.query("SELECT * FROM hoots WHERE user_id != ? AND draft = 0", [req.params.user_id], (err, result) => {
+  db.query("SELECT * FROM posts WHERE user_id != ? AND draft = 0", [req.params.user_id], (err, result) => {
     if (err) {
       console.log(err)
     } else {
@@ -109,10 +120,10 @@ app.post('/reply', (req, res) => {
   );
 });
 
-// view own hoots
+// view own posts
 app.get('/inbox/:user_id', (req, res) => {
   const user_id = req.params.user_id;
-  db.query("SELECT hoots.id, hoots.user_id, hoots.content, COUNT(DISTINCT replies.reply_id) AS reply_count, SUM(replies.unread) AS unread FROM hoots LEFT JOIN replies ON hoots.post_id = replies.post_id WHERE user_id = 2 AND draft = 0 GROUP BY hoots.post_id",
+  db.query("SELECT posts.id, posts.user_id, posts.content, COUNT(DISTINCT replies.id) AS reply_count, SUM(replies.unread) AS unread FROM posts LEFT JOIN replies ON posts.id = replies.post_id WHERE user_id = ? AND draft = 0 GROUP BY posts.id",
     [user_id], (err, result) => {
       if (err) {
         console.log(err)
@@ -152,11 +163,11 @@ app.put('/inbox/replies/:reply_id', (req, res) => {
 //add users 
 app.post('/users', (req, res) => {
   console.log(req.body);
-  const { id, email, username } = req.body;
+  const {id, email, username } = req.body;
 
   db.query(
     "INSERT INTO users (id, email, username) VALUES (?, ?, ?)",
-    [user_id, email, username], (err, result) => {
+    [id, email, username], (err, result) => {
       if (err) {
         console.log(err)
       } else {
@@ -168,7 +179,7 @@ app.post('/users', (req, res) => {
 
 //get user info
 app.get('/users/:id', (req, res) => {
-  db.query("SELECT users.id, users.username, users.email, COUNT(DISTINCT replies.id) AS reply_count, COUNT(DISTINCT hoots.id) AS post_count FROM users LEFT JOIN hoots ON users.id = hoots.user_id LEFT JOIN replies ON users.id = replies.replier_id WHERE users.id = ? GROUP BY users.id",
+  db.query("SELECT users.id, users.username, users.email, COUNT(DISTINCT replies.id) AS reply_count, COUNT(DISTINCT posts.id) AS post_count FROM users LEFT JOIN posts ON users.id = posts.user_id LEFT JOIN replies ON users.id = replies.replier_id WHERE users.id = ? GROUP BY users.id",
     [req.params.id], (err, result) => {
       if (err) {
         console.log(err)
@@ -176,6 +187,17 @@ app.get('/users/:id', (req, res) => {
         res.send(result)
       }
     });
+});
+
+app.get('/test', (req, res) => {
+  console.log("request made")
+  db.query("SELECT * FROM hoot.users;", (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(result)
+    }
+  });
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
