@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../UserContext';
 import { Button, Card, Grid, makeStyles, TextField, Typography } from '@material-ui/core'
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import Axios from 'axios';
 
 const UseStyles = makeStyles({

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../UserContext';
-import { Button, Card, makeStyles, Typography } from "@material-ui/core";
+import {  makeStyles} from "@material-ui/core";
 import ResponseCard from './ResponseCard';
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 
 
 function Reply() {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   const userId = useContext(UserContext);
   const [postPool, setpostPool] = useState([]);
@@ -45,7 +45,7 @@ function Reply() {
   }, [])
 
   function increment() {
-    if (index == postPool.length - 1) {
+    if (index === postPool.length - 1) {
       setindex(0);
     } else {
       setindex(index + 1);
@@ -53,7 +53,7 @@ function Reply() {
   }
 
   function decrement() {
-    if (index == 0) {
+    if (index === 0) {
       setindex(postPool.length - 1);
     } else {
       setindex(index - 1);

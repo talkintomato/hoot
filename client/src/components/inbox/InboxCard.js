@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Divider} from '@material-ui/core';
-import SaveIcon from '@material-ui/icons/Save';
+import Avatar from '@material-ui/core/Avatar';
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { UserContext } from '../UserContext';
@@ -43,6 +43,9 @@ const useStyles = makeStyles({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
+    },
+    unread: {
+        backgroundColor: "#FF0000"
     }
 });
 
@@ -61,7 +64,7 @@ export default function InboxCard(props) {
         setLoaded(true);
       }
       fetchData();
-      }, [])
+      }, [props.replyView])
       
 
     return (
@@ -74,10 +77,10 @@ export default function InboxCard(props) {
             <CardContent>
                 <Divider className={classes.divider} />
                 {userPosts.map((posts) => (
-                    <Button  variant="contained" className={classes.messagePrev} fullWidth onClick={() => props.selectIndex(posts.id)} endIcon={posts.viewed == 1? <SaveIcon />: null} > {posts.content + " " + posts.reply_count} </Button>
+                    <Button  variant="contained" className={classes.messagePrev} fullWidth onClick={() => props.selectIndex(posts.post_id)} endIcon={posts.unread > 0? <Avatar classname={classes.unread}> { posts.unread }</Avatar> : null} > {posts.content} </Button>
                 ))}
             </CardContent>
-            {/* <button onClick={console.log(userPosts)}> </button> */}
+            {/* <button onClick={()=>console.log(userPosts)}> </button> */}
         </Card>
     );
 }
