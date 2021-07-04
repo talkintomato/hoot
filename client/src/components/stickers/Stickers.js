@@ -1,6 +1,5 @@
 import { Card, Grid, makeStyles, Typography, Divider } from "@material-ui/core";
 import ProfileData from "../profile/ProfileData.js";
-import NavBar from "../Navbar";
 
 const useStyles = makeStyles({
   main: {

@@ -4,6 +4,8 @@ import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import LoginButton from "./loginbtn";
+
 
 const useStyles = makeStyles({
   root: {
@@ -35,61 +37,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SimpleCard({ Login, error }) {
+export default function SimpleCard() {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
-  const [details, setDetails] = useState({ username: "", password: "" });
-
-  const submit = (e) => {
-    e.preventDefault();
-    Login(details);
-  };
 
   return (
     <Card className={classes.root}>
       <Typography>Hoot</Typography>
       <Typography>Login</Typography>
-      <form
-        className={classes.form}
-        noValidate
-        autoComplete="off"
-        onSubmit={submit}
-      >
-        <TextField
-          id="outlined-basic"
-          label="Username"
-          variant="outlined"
-          type="text"
-          onChange={(e) => setDetails({ ...details, username: e.target.value })}
-          value={details.username}
-        />
-        <TextField
-          id="outlined-basic"
-          label="Password"
-          variant="outlined"
-          type="password"
-          onChange={(e) => setDetails({ ...details, password: e.target.value })}
-          value={details.password}
-        />
-        {error != "" ? <Typography>{error}</Typography> : ""}
-        <Button
-          variant="contained"
-          size="medium"
-          color="primary"
-          className={classes.button}
-          type="submit"
-        >
-          Login
-        </Button>
-        <Button
-          variant="contained"
-          size="medium"
-          color="primary"
-          className={classes.button}
-        >
-          Sign Up
-        </Button>
-      </form>
+      <LoginButton></LoginButton>
     </Card>
   );
 }
