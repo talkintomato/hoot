@@ -6,10 +6,9 @@ import Profile from "./components/profile/Profile";
 import Reply from "./components/reply/Reply";
 import Stickers from "./components/stickers/Stickers";
 import Write from "./components/write/Write";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import ProfileData from "./components/profile/ProfileData";
-import { useState } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const useStyles = makeStyles({
   root: {
@@ -19,38 +18,13 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
-
-  const [user, setUser] = useState({ username: "", password: "" });
-  const [error, setError] = useState("");
-
-  const Login = (details) => {
-    console.log(details);
-
-    if (
-      details.username == ProfileData.username &&
-      details.password == ProfileData.password
-    ) {
-      console.log("Logged in!");
-      setUser({
-        username: details.username,
-        password: details.password,
-      });
-    } else {
-      console.log("Wrong username or password!");
-      setError("Wrong username or password!");
-    }
-  };
-
-  const Logout = () => {
-    console.log("Logged out");
-    setUser({ username: "", password: "" });
-  };
+  const { user, isAuthenticated, isLoading } = useAuth0();
 
   return (
     <div className={classes.root}>
-      {user.password != "" ? (
+      {isAuthenticated ? (
         <Router>
-          <NavBar Logout={Logout} />
+          <NavBar />
           <Route path="/inbox" component={Inbox} />
           <Route path="/profile" component={Profile} />
           <Route path="/reply" component={Reply} />
@@ -58,7 +32,7 @@ function App() {
           <Route path="/write" component={Write} />
         </Router>
       ) : (
-        <LoginCard Login={Login} error={error} />
+        <LoginCard />
       )}
     </div>
   );

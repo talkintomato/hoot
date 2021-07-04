@@ -1,6 +1,5 @@
 
 import data from '../../data';
-import NavBar from '../Navbar';
 import ComposeCard from './ComposeCard';
 import DraftCard from './DraftCard';
 

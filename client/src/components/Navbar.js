@@ -1,10 +1,10 @@
 import React from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const StyledTab = withStyles((theme) => ({
   root: {
@@ -31,13 +31,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomizedTabs({ Logout }) {
+export default function Navbar() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const { logout } = useAuth0();
 
   return (
     <div className={classes.root}>
@@ -57,11 +54,9 @@ export default function CustomizedTabs({ Logout }) {
         <Link to="./profile">
           <StyledTab label="Profile" />
         </Link>
-        <Link to="./">
-          <Button onClick={Logout}>
-            <StyledTab label="Logout" />
-          </Button>
-        </Link>
+        <Button onClick={() => logout({ returnTo: window.location.origin })}>
+          <StyledTab label="Logout" />
+        </Button>
         <Typography className={classes.padding} />
       </div>
     </div>
