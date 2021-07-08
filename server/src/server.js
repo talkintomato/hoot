@@ -159,14 +159,13 @@ app.put('/inbox/replies/:reply_id', (req, res) => {
 });
 
 
-
 //add users 
 app.post('/users', (req, res) => {
   console.log(req.body);
   const {id, email, username } = req.body;
 
   db.query(
-    "INSERT INTO users (id, email, username) VALUES (?, ?, ?)",
+    "INSERT IGNORE INTO users (id, email, username) VALUES (?, ?, ?)",
     [id, email, username], (err, result) => {
       if (err) {
         console.log(err)
@@ -176,6 +175,20 @@ app.post('/users', (req, res) => {
     }
   )
 });
+
+//change nickname 
+app.put('/users/:id', (req, res) => {
+  db.query(
+    "UPDATE users SET users.username = ? WHERE id = ?", [req.body.username, req.params.id], (err, result) => {
+      if (err) {
+        console.log(err)
+      } else {
+        res.status(200).send("values updated")
+      }
+    }
+  );
+});
+
 
 //get user info
 app.get('/users/:id', (req, res) => {

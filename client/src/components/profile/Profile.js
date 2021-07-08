@@ -22,15 +22,14 @@ function Profile() {
   const [userData, setUserData] = useState([]);
   const [loaded, setLoaded] = useState(false); 
 
-  useEffect( () =>  {
+  useEffect(() =>  {
     const fetchData = async () => {
       const res = await Axios.get('http://localhost:5000/users/' + userId)
       setUserData(res.data);
       setLoaded(true);
-      console.log("after" , userData);
     }
     fetchData();
-    }, [])
+    }, [loaded])
 
   return (
     <>

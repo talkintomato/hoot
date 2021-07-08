@@ -1,5 +1,4 @@
 import { Card, Grid, makeStyles, Typography, Divider } from "@material-ui/core";
-import ProfileData from "../profile/ProfileData.js";
 import React, {useContext} from 'react';
 import { UserContext } from '../UserContext';
 
@@ -29,12 +28,11 @@ const useStyles = makeStyles({
 });
 
 function Stickers() {
-  const user = ProfileData;
   const classes = useStyles();
   const stickers = [];
   // eslint-disable-next-line no-lone-blocks
   {
-    for (let i = 1; i <= user.stickers; i++) {
+    for (let i = 1; i <= 9; i++) {
       stickers.push(i);
     }
   }

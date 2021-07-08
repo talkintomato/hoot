@@ -2,6 +2,7 @@ import { useState } from "react";
 import InboxCard from "./InboxCard";
 import RepliesCard from "./RepliesCard";
 
+
 function Inbox() {
   const [post, setPost] = useState(null);
   const [replyView, setReplyView] = useState(false)
