@@ -4,20 +4,25 @@ import owl1 from "./hootowl.jpg";
 import ProfileCard from "./ProfileCard";
 import ProfileData from "./ProfileData";
 
-const UseStyles = makeStyles({
+const useStyles = makeStyles({
   avatar: {
     maxWidth: "100%",
     maxHeight: "70%",
     margin: "50px",
     marginTop: "10px",
   },
+  h1: {
+    fontFamily: "Comfortaa",
+    fontSize: 23,
+    textAlign: "center",
+  },
 });
 
 function Profile() {
-  const classes = UseStyles();
+  const classes = useStyles();
   return (
-    <>
-      <h1> Profile </h1>
+    <div>
+      <h1 className={classes.h1}> Profile </h1>
       <Grid container spacing={3}>
         <Grid item xs={5}>
           <img src={owl1} alt="" className={classes.avatar} />
@@ -26,7 +31,7 @@ function Profile() {
           <ProfileCard data={ProfileData} />
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 }
 
