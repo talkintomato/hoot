@@ -10,30 +10,39 @@ import {
 const UseStyles = makeStyles({
   profileBox: {
     padding: "20px",
-    backgroundColor: "rgba(00, 00, 00, 0.6)",
+    borderStyle: "dotted",
+    borderColor: "#13C7C2",
+    background: "#D8ECEC",
   },
   profileName: {
-    fontSize: 55,
-    color: "white",
+    fontSize: 40,
+    fontFamily: "Comfortaa",
+    fontWeight: "bold",
   },
   profileBody: {
-    fontSize: 30,
-    color: "white",
+    fontSize: 20,
+    fontFamily: "Comfortaa",
+    fontWeight: "normal",
   },
   accountDetails: {
-    fontSize: 16,
-    color: "#CFD1D2",
+    fontSize: 10,
+    fontFamily: "Comfortaa",
+    fontWeight: "normal",
+    color: "#A6A6A6",
     marginBottom: 10,
   },
   divider: {
     width: "100%",
     padding: 1,
     margin: "10px",
+    background: "#AFE1DB",
   },
 });
 
 function ProfileCard(props) {
   console.log(props.data);
+
+  // pull user data from backend instead
   const user = props.data;
   const classes = UseStyles();
 
@@ -42,13 +51,10 @@ function ProfileCard(props) {
       <Typography className={classes.profileName}>Darin Loh Han Sum</Typography>
       <Divider className={classes.divider} />
       <Typography className={classes.profileBody}>
-        HOOTS: {user.hoots}
+        You have {user.hoots} hoots, {user.answers} hootbacks, and{" "}
+        {user.stickers} stickers.
         <br />
-        ANSWERS: {user.answers}
-        <br />
-        STICKERS: {user.stickers}
-        <br />
-        LEVEL: {user.rank}
+        Your current level: {user.rank}
       </Typography>
       <Divider className={classes.divider} />
       <Typography className={classes.accountDetails}>
