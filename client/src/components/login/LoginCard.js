@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import LoginButton from "./loginbtn";
-
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 500,
-    margin: 30,
+    maxWidth: 400,
+    margin: 10,
     padding: 15,
+    textAlign: "center",
+    borderStyle: "dotted",
+    borderColor: "#13C7C2",
+    background: "#D8ECEC",
   },
   form: {
     maxWidth: 500,
@@ -35,6 +36,10 @@ const useStyles = makeStyles({
     padding: 10,
     margin: 10,
   },
+  text: {
+    fontFamily: "Comfortaa",
+    fontWeight: "normal",
+  },
 });
 
 export default function SimpleCard() {
@@ -42,8 +47,12 @@ export default function SimpleCard() {
 
   return (
     <Card className={classes.root}>
-      <Typography>Hoot</Typography>
-      <Typography>Login</Typography>
+      <Typography className={classes.text} style={{ fontSize: 30 }}>
+        Welcome to Hoot!
+      </Typography>
+      <Typography className={classes.text} style={{ fontSize: 18 }}>
+        Click here to log in
+      </Typography>
       <LoginButton></LoginButton>
     </Card>
   );

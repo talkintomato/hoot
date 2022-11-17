@@ -13,6 +13,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const useStyles = makeStyles({
   root: {
     alignContent: "center",
+    height: "100vh",
   },
 });
 
