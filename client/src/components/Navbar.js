@@ -22,12 +22,16 @@ const StyledTab = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    backgroundColor: "#D8ECEC",
   },
   padding: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(1),
   },
-  demo2: {
-    backgroundColor: "#808080",
+  label: {
+    fontFamily: "Comfortaa",
+    fontWeight: "normal",
+    fontSize: 18,
+    color: "black",
   },
 }));
 
@@ -38,27 +42,25 @@ export default function Navbar() {
 
   return (
     <div className={classes.root}>
-      <div className={classes.demo2}>
-        <Link to="./write">
-          <StyledTab label="Write" />
-        </Link>
-        <Link to="./reply">
-          <StyledTab label="Reply" />
-        </Link>
-        <Link to="./inbox">
-          <StyledTab label="Inbox" />
-        </Link>
-        <Link to="./stickers">
-          <StyledTab label="Stickers" />
-        </Link>
-        <Link to="./profile">
-          <StyledTab label="Profile" />
-        </Link>
-        <Button onClick={() => logout({ returnTo: window.location.origin })}>
-          <StyledTab label="Logout" />
-        </Button>
-        <Typography className={classes.padding} />
-      </div>
+      <Link to="./write">
+        <StyledTab className={classes.label} label="Write" />
+      </Link>
+      <Link to="./reply">
+        <StyledTab className={classes.label} label="Reply" />
+      </Link>
+      <Link to="./inbox">
+        <StyledTab className={classes.label} label="Inbox" />
+      </Link>
+      <Link to="./stickers">
+        <StyledTab className={classes.label} label="Stickers" />
+      </Link>
+      <Link to="./profile">
+        <StyledTab className={classes.label} label="Profile" />
+      </Link>
+      <Button onClick={() => logout({ returnTo: window.location.origin })}>
+        <StyledTab className={classes.label} label="Logout" />
+      </Button>
+      <Typography className={classes.padding} />
     </div>
   );
 }
