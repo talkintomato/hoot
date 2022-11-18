@@ -3,22 +3,22 @@ import InboxCard from "./InboxCard";
 import InboxData from "./InboxData";
 
 const UseStyles = makeStyles({
-    card: {
-        
-    }
-})
+  card: {},
+  h1: {
+    fontFamily: "Comfortaa",
+    fontSize: 23,
+    textAlign: "center",
+  },
+});
 
 function Inbox() {
-  const classes = UseStyles(); 
+  const classes = UseStyles();
   return (
     <>
-     <h1> Inbox </h1>
-     <Card className={classes.card}> 
-        
-     </Card>
-     <InboxCard data={InboxData}></InboxCard>
-     
-     </>
+      <h1 className={classes.h1}> Inbox </h1>
+      <Card className={classes.card}></Card>
+      <InboxCard data={InboxData}></InboxCard>
+    </>
   );
 }
 
