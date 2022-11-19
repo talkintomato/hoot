@@ -51,9 +51,9 @@ export default function Navbar() {
       <Link to="./inbox">
         <StyledTab className={classes.label} label="Inbox" />
       </Link>
-      <Link to="./stickers">
+      {/* <Link to="./stickers">
         <StyledTab className={classes.label} label="Stickers" />
-      </Link>
+      </Link> */}
       <Link to="./profile">
         <StyledTab className={classes.label} label="Profile" />
       </Link>

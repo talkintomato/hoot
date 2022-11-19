@@ -1,6 +1,5 @@
 import { makeStyles } from "@material-ui/core";
 import InboxCard from "./InboxCard";
-import InboxData from "./InboxData";
 import { useEffect, useState } from "react";
 
 const useStyles = makeStyles({

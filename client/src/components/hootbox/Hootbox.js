@@ -1,7 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import HootboxCard from "./HootboxCard";
-import HootboxData from "./HootboxData";
 
 const useStyles = makeStyles({
   card: {},
