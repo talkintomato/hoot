@@ -45,6 +45,9 @@ export default function Navbar() {
       <Link to="./write">
         <StyledTab className={classes.label} label="Write" />
       </Link>
+      <Link to="./hootbox">
+        <StyledTab className={classes.label} label="Hootbox" />
+      </Link>
       <Link to="./inbox">
         <StyledTab className={classes.label} label="Inbox" />
       </Link>

@@ -1,5 +1,4 @@
 import { Card, Grid, makeStyles, Typography, Divider } from "@material-ui/core";
-import ProfileData from "../profile/ProfileData.js";
 
 const useStyles = makeStyles({
   main: {
@@ -24,22 +23,26 @@ const useStyles = makeStyles({
   footer: {
     fontSize: 8,
   },
+  h1: {
+    fontFamily: "Comfortaa",
+    fontSize: 23,
+    textAlign: "center",
+  },
 });
 
 function Stickers() {
-  const user = ProfileData;
   const classes = useStyles();
   const stickers = [];
   // eslint-disable-next-line no-lone-blocks
   {
-    for (let i = 1; i <= user.stickers; i++) {
+    for (let i = 1; i <= 3; i++) {
       stickers.push(i);
     }
   }
   console.log(stickers);
   return (
     <>
-      <h1> Stickers </h1>
+      <h1 className={classes.h1}> Stickers </h1>
       <Card className={classes.main}>
         <Typography className={classes.title}>My Collection!</Typography>
         <Divider className={classes.divider} />
