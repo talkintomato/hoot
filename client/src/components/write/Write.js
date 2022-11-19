@@ -2,6 +2,7 @@ import data from "../../data";
 import ComposeCard from "./ComposeCard";
 import DraftCard from "./DraftCard";
 import { makeStyles } from "@material-ui/core";
+import { useState } from "react";
 
 const useStyles = makeStyles({
   h1: {
@@ -13,11 +14,18 @@ const useStyles = makeStyles({
 
 function Write() {
   const classes = useStyles();
+  const [drafts, setDrafts] = useState(true);
+  const showCompose = () => setDrafts(false);
+  const showDrafts = () => setDrafts(true);
+
   return (
     <>
       <h1 className={classes.h1}> Write </h1>
-      <DraftCard data={data}> </DraftCard>
-      <ComposeCard></ComposeCard>
+      {drafts ? (
+        <DraftCard data={data} onCompose={showCompose} />
+      ) : (
+        <ComposeCard onDrafts={showDrafts} />
+      )}
     </>
   );
 }

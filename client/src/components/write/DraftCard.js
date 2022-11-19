@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
+import ComposeCard from "./ComposeCard";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -60,6 +60,7 @@ const useStyles = makeStyles({
 
 export default function DraftCard(props) {
   const classes = useStyles();
+  console.log(props);
   console.log(props.data);
 
   return (
@@ -68,7 +69,11 @@ export default function DraftCard(props) {
         <Typography className={classes.title} gutterBottom>
           Drafts
         </Typography>
-        <Button variant="contained" className={classes.compose}>
+        <Button
+          variant="contained"
+          onClick={props.onCompose}
+          className={classes.compose}
+        >
           {" "}
           Compose{" "}
         </Button>
