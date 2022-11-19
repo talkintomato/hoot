@@ -1,21 +1,27 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require("express");
+app = express();
 
-const app = express();
-const port = process.env.PORT || 5000;
+// Sample JSON data
+const data = require("./sampledata");
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.get('/api/hello', (req, res) => {
-  res.send({ express: 'Hello From Express' });
+app.get("/api", (req, res) => {
+  res.json(data);
 });
 
-app.post('/api/world', (req, res) => {
-  console.log(req.body);
-  res.send(
-    `I received your POST request. This is what you sent me: ${req.body.post}`,
-  );
+uid = 0;
+
+app.get(`/api/user/${uid}`, (req, res) => {
+  res.json(data["users"][uid]);
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.get("/api/hoots", (req, res) => {
+  res.json(data["hoots"]);
+});
+
+app.get(`/api/inbox/${uid}`, (req, res) => {
+  res.json(data["replies"]);
+});
+
+app.listen(5000, () => {
+  console.log("Server is running on port 5000");
+});
