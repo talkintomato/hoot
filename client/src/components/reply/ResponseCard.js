@@ -53,7 +53,7 @@ export default function ResponseCard(props) {
             variant="contained"
             onClick={props.onBack}
           >
-            Back to Inbox
+            Back
           </Button>
         </Card>
       ) : (
