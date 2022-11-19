@@ -1,4 +1,4 @@
-import { Card, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import InboxCard from "./InboxCard";
 import InboxData from "./InboxData";
 
@@ -16,7 +16,6 @@ function Inbox() {
   return (
     <>
       <h1 className={classes.h1}> Inbox </h1>
-      <Card className={classes.card}></Card>
       <InboxCard data={InboxData}></InboxCard>
     </>
   );

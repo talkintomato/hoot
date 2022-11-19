@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Divider } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
+import ResponseCard from "../reply/ResponseCard";
 
 const useStyles = makeStyles({
   root: {
@@ -47,35 +48,39 @@ export default function InboxCard(props) {
   const classes = useStyles();
   console.log(props.data);
 
+  const [reply, setReply] = useState({ open: false, hoot: "" });
+  const showInbox = () => setReply({ open: false, hoot: "" });
+
   return (
-    <Card className={classes.root}>
-      {/* <CardContent className={classes.header}>
-                <Typography className={classes.title} gutterBottom>
-                    Drafts
-        </Typography>
-                <Button variant="contained" className={classes.compose}> Compose </Button>
-            </CardContent> */}
-      <CardContent>
-        {props.data.map((users) => (
-          <Button
-            variant="contained"
-            className={classes.messagePrevButton}
-            fullWidth
-            endIcon={<SaveIcon />}
-          >
-            <Typography
-              className={classes.messagePrev}
-              style={{ fontWeight: "bold" }}
-            >
-              {users.name}:&nbsp;
-            </Typography>
-            <Typography className={classes.messagePrev}>
-              {users.content}{" "}
-            </Typography>
-          </Button>
-        ))}
-        <Divider className={classes.divider} />
-      </CardContent>
-    </Card>
+    <>
+      {reply.open ? (
+        <ResponseCard hoot={reply.hoot} onBack={showInbox} />
+      ) : (
+        <Card className={classes.root}>
+          <CardContent>
+            {props.data.map((users) => (
+              <Button
+                variant="contained"
+                className={classes.messagePrevButton}
+                fullWidth
+                endIcon={<SaveIcon />}
+                onClick={() => setReply({ open: true, hoot: users })}
+              >
+                <Typography
+                  className={classes.messagePrev}
+                  style={{ fontWeight: "bold" }}
+                >
+                  {users.name}:&nbsp;
+                </Typography>
+                <Typography className={classes.messagePrev}>
+                  {users.content}{" "}
+                </Typography>
+              </Button>
+            ))}
+            <Divider className={classes.divider} />
+          </CardContent>
+        </Card>
+      )}
+    </>
   );
 }
