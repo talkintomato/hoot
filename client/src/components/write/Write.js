@@ -14,17 +14,21 @@ const useStyles = makeStyles({
 
 function Write() {
   const classes = useStyles();
-  const [drafts, setDrafts] = useState(true);
-  const showCompose = () => setDrafts(false);
-  const showDrafts = () => setDrafts(true);
+  const [drafts, setDrafts] = useState({ show: true, draft: "" });
+  const showCompose = (draft) => setDrafts({ show: false, draft: draft });
+  const showDrafts = () => setDrafts({ show: true, draft: "" });
 
   return (
     <>
       <h1 className={classes.h1}> Write </h1>
-      {drafts ? (
-        <DraftCard data={data} onCompose={showCompose} />
+      {drafts.show ? (
+        <DraftCard
+          data={data}
+          onComposeNew={() => showCompose("")}
+          onEditDraft={(draft) => showCompose(draft)}
+        />
       ) : (
-        <ComposeCard onDrafts={showDrafts} />
+        <ComposeCard onDrafts={showDrafts} prefill={drafts.draft} />
       )}
     </>
   );

@@ -70,7 +70,7 @@ export default function DraftCard(props) {
         </Typography>
         <Button
           variant="contained"
-          onClick={props.onCompose}
+          onClick={props.onComposeNew}
           className={classes.compose}
         >
           {" "}
@@ -79,7 +79,11 @@ export default function DraftCard(props) {
       </CardContent>
       <Divider className={classes.divider} />
       {props.data.map((users) => (
-        <Button variant="contained" className={classes.messagePrevButton}>
+        <Button
+          variant="contained"
+          onClick={() => props.onEditDraft(users.content)}
+          className={classes.messagePrevButton}
+        >
           <Typography className={classes.messagePrev}>
             {users.content}
           </Typography>

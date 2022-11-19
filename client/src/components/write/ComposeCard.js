@@ -87,7 +87,7 @@ export default function ComposeCard(props) {
           </CardContent>
           <CardContent className={classes.formContainer}>
             <form className={classes.form}>
-              <textarea className={classes.textarea}></textarea>
+              <textarea className={classes.textarea}>{props.prefill}</textarea>
             </form>
           </CardContent>
           <Button
