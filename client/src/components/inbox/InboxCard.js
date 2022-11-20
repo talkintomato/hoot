@@ -70,7 +70,7 @@ export default function InboxCard(props) {
                   className={classes.messagePrev}
                   style={{ fontWeight: "bold" }}
                 >
-                  {users.name}:&nbsp;
+                  {users.username}:&nbsp;
                 </Typography>
                 <Typography className={classes.messagePrev}>
                   {users.content}{" "}

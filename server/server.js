@@ -62,6 +62,22 @@ app.get("/api/hoots", (req, res) => {
 /**
  * Inbox
  */
+// Get inbox
+app.get(`/api/inbox/${uid}`, (req, res) => {
+  let sql = `SELECT r.rid, h.hid, ufrom.username, r.content, h.content AS parent
+      FROM users uto JOIN hoots h 
+      ON uto.uid = h.uid
+      JOIN replies r
+      ON r.hid = h.hid
+      JOIN users ufrom
+      ON r.uid = ufrom.uid
+      WHERE uto.uid = ${uid}`;
+  client.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.json(result.rows);
+  });
+});
 
 // // Sample JSON data
 // const data = require("./sample_data/sampledata");
