@@ -21,6 +21,7 @@ function Hootbox() {
     fetch("/api/hoots")
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setHoots(data);
       });
   });

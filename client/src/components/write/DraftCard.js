@@ -59,8 +59,6 @@ const useStyles = makeStyles({
 
 export default function DraftCard(props) {
   const classes = useStyles();
-  console.log(props);
-  console.log(props.data);
 
   return (
     <Card className={classes.root}>
@@ -81,7 +79,7 @@ export default function DraftCard(props) {
       {props.data.map((users) => (
         <Button
           variant="contained"
-          onClick={() => props.onEditDraft(users.content)}
+          onClick={() => props.onEditDraft(users.content, users.did)}
           className={classes.messagePrevButton}
         >
           <Typography className={classes.messagePrev}>

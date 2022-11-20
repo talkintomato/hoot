@@ -46,7 +46,7 @@ export default function ResponseCard(props) {
       {replied ? (
         <Card className={classes.root}>
           <Typography className={classes.hoot}>
-            Your reply has been sent to {props.hoot.name}. Well done!
+            Your reply has been sent to {props.hoot.username}. Well done!
           </Typography>
           <Button
             className={classes.button}
@@ -59,12 +59,12 @@ export default function ResponseCard(props) {
       ) : (
         <Card className={classes.root}>
           <Typography className={classes.hoot} style={{ fontWeight: "bold" }}>
-            From {props.hoot.name}:
+            From {props.hoot.username}:
           </Typography>
           <Typography className={classes.hoot}>{props.hoot.content}</Typography>
           <TextField
             id="filled-textarea"
-            label={"Dear " + props.hoot.name + ","}
+            label={"Dear " + props.hoot.username + ","}
             placeholder="Type your reply here..."
             multiline
             rows={10}

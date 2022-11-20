@@ -32,7 +32,7 @@ function App() {
           <Route path="/profile" component={() => <Profile uid={0} />} />
           <Route path="/reply" component={Reply} />
           <Route path="/stickers" component={Stickers} />
-          <Route path="/write" component={Write} />
+          <Route path="/write" component={() => <Write uid={0} />} />
         </Router>
       ) : (
         <LoginCard />
