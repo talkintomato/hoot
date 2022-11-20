@@ -27,7 +27,7 @@ function Profile(props) {
     fetch(`/api/user/${uid}`)
       .then((response) => response.json())
       .then((data) => {
-        setUserData(data);
+        setUserData(data[0]);
       });
   });
 

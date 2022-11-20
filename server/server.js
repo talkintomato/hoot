@@ -25,10 +25,13 @@ uid = 0;
  * Profile
  */
 app.get(`/api/user/${uid}`, (req, res) => {
-  let sql = `SELECT * FROM users WHERE uid=${uid}`;
+  let sql = `SELECT *, 
+        (SELECT COUNT(*) FROM hoots h WHERE h.uid = ${uid}) AS hoot_count,
+        (SELECT COUNT(*) FROM replies r WHERE r.uid = ${uid}) AS reply_count
+      FROM users u 
+      WHERE u.uid = ${uid}`;
   client.query(sql, (err, result) => {
     if (err) throw err;
-    console.log(result);
     res.json(result.rows);
   });
 });
@@ -41,7 +44,6 @@ app.get(`/api/drafts/${uid}`, (req, res) => {
   let sql = `SELECT * FROM drafts WHERE uid=${uid}`;
   client.query(sql, (err, result) => {
     if (err) throw err;
-    console.log(result);
     res.json(result.rows);
   });
 });
@@ -54,7 +56,6 @@ app.get("/api/hoots", (req, res) => {
   let sql = `SELECT h.uid, u.username, h.content FROM hoots h JOIN users u ON h.uid = u.uid`;
   client.query(sql, (err, result) => {
     if (err) throw err;
-    console.log(result);
     res.json(result.rows);
   });
 });
@@ -74,31 +75,9 @@ app.get(`/api/inbox/${uid}`, (req, res) => {
       WHERE uto.uid = ${uid}`;
   client.query(sql, (err, result) => {
     if (err) throw err;
-    console.log(result);
     res.json(result.rows);
   });
 });
-
-// // Sample JSON data
-// const data = require("./sample_data/sampledata");
-
-// app.get("/api", (req, res) => {
-//   res.json(data);
-// });
-
-// uid = 0;
-
-// app.get(`/api/user/${uid}`, (req, res) => {
-//   res.json(data["users"][uid]);
-// });
-
-// app.get("/api/hoots", (req, res) => {
-//   res.json(data["hoots"]);
-// });
-
-// app.get(`/api/inbox/${uid}`, (req, res) => {
-//   res.json(data["replies"]);
-// });
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");

@@ -48,20 +48,19 @@ function ProfileCard(props) {
 
   return (
     <Card className={classes.profileBox}>
-      <Typography className={classes.profileName}>{user["name"]}</Typography>
+      <Typography className={classes.profileName}>{user.name}</Typography>
       <Divider className={classes.divider} />
       <Typography className={classes.profileBody}>
-        You have {user["hoots"]} hoots, {user["answers"]} hootbacks, and{" "}
-        {user["stickers"]} stickers.
+        You have {user.hoot_count} hoots and {user.reply_count} hootbacks.
         <br />
-        Your current level: {user["rank"]}
+        Your current level: {"noob"}
       </Typography>
       <Divider className={classes.divider} />
       <Typography className={classes.accountDetails}>
         Account Details: <br />
-        Username: {user["username"]}
+        Username: {user.username}
         <br />
-        Email: {user["email"]}
+        Email: {user.email}
         <br />
         {/* Password: {user["password"].replace(/./g, "*")} */}
       </Typography>
