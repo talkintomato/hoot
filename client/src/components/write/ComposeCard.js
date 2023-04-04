@@ -5,6 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Button } from "@material-ui/core";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles({
   root: {
@@ -60,6 +61,8 @@ const useStyles = makeStyles({
 
 export default function ComposeCard(props) {
   const classes = useStyles();
+  const [cookies, setCookie, removeCookie] = useCookies(null);
+  const uid = cookies.Uid;
 
   const [hoot, setHoot] = useState({ hooted: false, content: "" });
   const handleChange = (event) => {
@@ -71,7 +74,7 @@ export default function ComposeCard(props) {
         content: hoot.content,
       };
 
-      await fetch("/api/post/0", {
+      await fetch(`/api/post/${uid}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(content),

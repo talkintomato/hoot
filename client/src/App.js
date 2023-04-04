@@ -9,7 +9,6 @@ import Stickers from "./components/stickers/Stickers";
 import Write from "./components/write/Write";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
@@ -22,21 +21,36 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
-  // const { user, isAuthenticated, isLoading } = useAuth0();
 
   const [cookies, setCookie, removeCookie] = useCookies(null);
   const [uid, setUid] = useState(null);
 
   const authToken = cookies.AuthToken;
+  const userEmail = cookies.Email;
 
   const getUser = async () => {
     console.log("getting user...");
-    const userEmail = "darindamnhandsome@sexymail.com";
     try {
       const response = await fetch(`/users/${userEmail}`);
       const json = await response.json();
       setUid(json[0].uid);
-      console.log(uid);
+      setCookie("Uid", uid);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const devMode = async (e) => {
+    console.log("activating dev mode...");
+    try {
+      const response = await fetch("/devmode", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "Dev mode activated" }),
+      });
+      const data = await response.json();
+      console.log(data);
+      console.log("bots added!");
     } catch (err) {
       console.error(err);
     }
@@ -63,6 +77,7 @@ function App() {
       ) : (
         <LoginCard />
       )}
+      <button onClick={devMode}>dev mode</button>
     </div>
   );
 }

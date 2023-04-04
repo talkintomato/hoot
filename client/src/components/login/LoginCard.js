@@ -89,6 +89,7 @@ export default function SimpleCard() {
       } else {
         setCookie("Email", data.email);
         setCookie("AuthToken", data.token);
+        setCookie("Username", data.username);
         window.location.reload();
       }
     } catch (err) {

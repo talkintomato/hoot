@@ -125,6 +125,7 @@ app.get("/api/hoots", async (req, res) => {
   try {
     const hoots = await pool.query(
       "SELECT h.uid, u.username, h.content FROM hoots h JOIN users u ON h.uid = u.uid"
+      // "SELECT * FROM hoots h JOIN users u ON h.uid = u.uid"
     );
     res.json(hoots.rows);
   } catch (err) {
@@ -145,6 +146,51 @@ app.get("/api/inbox/:uid", async (req, res) => {
       [uid]
     );
     res.json(replies.rows);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// API to populate database with bots
+app.get("/devmode", async (req, res) => {
+  console.log("backend api called");
+  const uidDarin = uuidv4();
+  const uidChin = uuidv4();
+  const uidJin = uuidv4();
+  const uidAndy = uuidv4();
+  let salt = bcrypt.genSaltSync(10);
+  const hashedPasswordDarin = bcrypt.hashSync("darintoonice", salt);
+  salt = bcrypt.genSaltSync(10);
+  const hashedPasswordChin = bcrypt.hashSync("chinny", salt);
+  salt = bcrypt.genSaltSync(10);
+  const hashedPasswordJin = bcrypt.hashSync("jinlinthumb", salt);
+  salt = bcrypt.genSaltSync(10);
+  const hashedPasswordAndy = bcrypt.hashSync("andytoocool", salt);
+
+  try {
+    const signUp = await pool.query(
+      `INSERT INTO users(uid, username, hashed_password, email) VALUES ($1, $2, $3, $4), ($5, $6, $7, $8), ($9, $10, $11, $12), ($13, $14, $15, $16)`,
+      [
+        uidDarin,
+        "darinlohhandsome",
+        hashedPasswordDarin,
+        "darindamnhandsome@coolmail.com",
+        uidChin,
+        "chinkiatpower",
+        hashedPasswordChin,
+        "chindamncool@coolmail.com",
+        uidJin,
+        "jinlinhappy",
+        hashedPasswordJin,
+        "jinlindamncool@coolmail.com",
+        uidAndy,
+        "andytall",
+        hashedPasswordAndy,
+        "andydamncool@coolmail.com",
+      ]
+    );
+
+    res.json({ status: "Dev mode activated" });
   } catch (err) {
     console.error(err);
   }

@@ -48,7 +48,7 @@ function ProfileCard(props) {
 
   return (
     <Card className={classes.profileBox}>
-      <Typography className={classes.profileName}>{user.name}</Typography>
+      <Typography className={classes.profileName}>{user.username}</Typography>
       <Divider className={classes.divider} />
       <Typography className={classes.profileBody}>
         You have {user.hoot_count} hoots and {user.reply_count} hootbacks.
