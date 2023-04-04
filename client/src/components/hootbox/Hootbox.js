@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
-import InboxCard from "./InboxCard";
 import { useEffect, useState } from "react";
+import HootboxCard from "./HootboxCard";
 
 const useStyles = makeStyles({
   card: {},
@@ -11,26 +11,27 @@ const useStyles = makeStyles({
   },
 });
 
-function Inbox(props) {
+// This component is for the Hoot "Cloud"
+function Hootbox() {
   const classes = useStyles();
 
-  const [inbox, setInbox] = useState([]);
-  const uid = props.uid;
+  const [hoots, setHoots] = useState([]);
 
   useEffect(() => {
-    fetch(`/api/inbox/${uid}`)
+    fetch("/api/hoots")
       .then((response) => response.json())
       .then((data) => {
-        setInbox(data);
+        console.log(data);
+        setHoots(data);
       });
   });
 
   return (
     <>
-      <h1 className={classes.h1}> Inbox </h1>
-      <InboxCard data={inbox}></InboxCard>
+      <h1 className={classes.h1}> Hootbox </h1>
+      <HootboxCard data={hoots}></HootboxCard>
     </>
   );
 }
 
-export default Inbox;
+export default Hootbox;

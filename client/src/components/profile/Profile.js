@@ -1,8 +1,7 @@
-import NavBar from "../Navbar";
-import { Card, Grid, makeStyles, Typography } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import owl1 from "./hootowl.jpg";
 import ProfileCard from "./ProfileCard";
-import ProfileData from "./ProfileData";
+import { useEffect, useState } from "react";
 
 const useStyles = makeStyles({
   avatar: {
@@ -18,17 +17,29 @@ const useStyles = makeStyles({
   },
 });
 
-function Profile() {
+function Profile(props) {
   const classes = useStyles();
+
+  const [userData, setUserData] = useState({});
+  const uid = props.uid;
+
+  useEffect(() => {
+    fetch(`/api/user/${uid}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUserData(data[0]);
+      });
+  });
+
   return (
     <div>
-      <h1 className={classes.h1}> Profile </h1>
+      <h1 className={classes.h1}>Profile</h1>
       <Grid container spacing={3}>
         <Grid item xs={5}>
           <img src={owl1} alt="" className={classes.avatar} />
         </Grid>
         <Grid item xs={6}>
-          <ProfileCard data={ProfileData} />
+          <ProfileCard data={userData} />
         </Grid>
       </Grid>
     </div>

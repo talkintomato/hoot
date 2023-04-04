@@ -7,7 +7,7 @@ import {
   Divider,
 } from "@material-ui/core";
 
-const UseStyles = makeStyles({
+const useStyles = makeStyles({
   profileBox: {
     padding: "20px",
     borderStyle: "dotted",
@@ -44,17 +44,16 @@ function ProfileCard(props) {
 
   // pull user data from backend instead
   const user = props.data;
-  const classes = UseStyles();
+  const classes = useStyles();
 
   return (
     <Card className={classes.profileBox}>
-      <Typography className={classes.profileName}>Darin Loh Han Sum</Typography>
+      <Typography className={classes.profileName}>{user.name}</Typography>
       <Divider className={classes.divider} />
       <Typography className={classes.profileBody}>
-        You have {user.hoots} hoots, {user.answers} hootbacks, and{" "}
-        {user.stickers} stickers.
+        You have {user.hoot_count} hoots and {user.reply_count} hootbacks.
         <br />
-        Your current level: {user.rank}
+        Your current level: {"noob"}
       </Typography>
       <Divider className={classes.divider} />
       <Typography className={classes.accountDetails}>
@@ -63,7 +62,7 @@ function ProfileCard(props) {
         <br />
         Email: {user.email}
         <br />
-        Password: {user.password.replace(/./g, "*")}
+        {/* Password: {user["password"].replace(/./g, "*")} */}
       </Typography>
       <Button variant="outlined" size="small">
         Edit

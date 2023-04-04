@@ -44,17 +44,17 @@ const useStyles = makeStyles({
   },
 });
 
-export default function InboxCard(props) {
+export default function HootboxCard(props) {
   const classes = useStyles();
   console.log(props.data);
 
-  const [reply, setReply] = useState({ open: false, hoot: "" });
-  const showInbox = () => setReply({ open: false, hoot: "" });
+  const [reply, setReply] = useState({ open: false, hoot: {} });
+  const showHootbox = () => setReply({ open: false, hoot: {} });
 
   return (
     <>
       {reply.open ? (
-        <ResponseCard hoot={reply.hoot} onBack={showInbox} />
+        <ResponseCard hoot={reply.hoot} onBack={showHootbox} />
       ) : (
         <Card className={classes.root}>
           <CardContent>
@@ -73,7 +73,7 @@ export default function InboxCard(props) {
                   {users.username}:&nbsp;
                 </Typography>
                 <Typography className={classes.messagePrev}>
-                  {users.content}{" "}
+                  {users.content}
                 </Typography>
               </Button>
             ))}
