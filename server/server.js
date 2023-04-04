@@ -10,9 +10,12 @@ const client = new Client({
   database: "hoot",
 });
 
+// const client = require("./db");
+
 // Connect
 client.connect();
 
+const PORT = process.env.PORT ?? 5000;
 const app = express();
 
 /**
@@ -48,6 +51,16 @@ app.get(`/api/drafts/${uid}`, (req, res) => {
   });
 });
 
+// Post a hoot
+app.post(`/api/post/${uid}`, async (req, res) => {
+  let hoot = req.body;
+  let sql = `INSERT INTO hoots VALUES (${hoot.hid}, ${hoot.uid}, ${hoot.content})`;
+  client.query(sql, (err, result) => {
+    if (err) throw err;
+    res.status = "success";
+  });
+});
+
 /**
  * Hootbox
  */
@@ -79,6 +92,6 @@ app.get(`/api/inbox/${uid}`, (req, res) => {
   });
 });
 
-app.listen(5000, () => {
-  console.log("Server is running on port 5000");
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

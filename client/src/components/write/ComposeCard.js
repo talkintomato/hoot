@@ -61,11 +61,27 @@ const useStyles = makeStyles({
 export default function ComposeCard(props) {
   const classes = useStyles();
 
-  const [hooted, setHooted] = useState(false);
+  const [hoot, setHoot] = useState({ hooted: false, body: "" });
+  const handleChange = (event) => {
+    setHoot({ ...hoot, body: event.target.value });
+  };
+  const postHoot = () => {
+    const body = {
+      uid: 100,
+      hid: 100,
+      content: hoot.body,
+    };
+    fetch(`/api/post/0`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    setHoot({ ...hoot, hooted: true });
+  };
 
   return (
     <>
-      {hooted ? (
+      {hoot.hooted ? (
         <Card className={classes.root}>
           <Typography className={classes.button}>
             Your hoot has been sent. Great job!
@@ -87,7 +103,9 @@ export default function ComposeCard(props) {
           </CardContent>
           <CardContent className={classes.formContainer}>
             <form className={classes.form}>
-              <textarea className={classes.textarea}>{props.prefill}</textarea>
+              <textarea className={classes.textarea} onChange={handleChange}>
+                {props.prefill}
+              </textarea>
             </form>
           </CardContent>
           <Button
@@ -108,7 +126,7 @@ export default function ComposeCard(props) {
           <Button
             variant="contained"
             className={classes.button}
-            onClick={() => setHooted(true)}
+            onClick={postHoot}
           >
             Hoot
           </Button>

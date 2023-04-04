@@ -6,7 +6,7 @@ CREATE TABLE Users (
 	uid 			INTEGER,
     name			TEXT,
     username		TEXT,
-    password		TEXT,
+    password_hash	TEXT,
     email			TEXT,
 	PRIMARY KEY (uid)
 );
@@ -34,10 +34,10 @@ CREATE TABLE Replies (
 );
 
 INSERT  INTO Users VALUES 
-(0, 'Darin Loh Han Sum', 'darinlohsexy', 'darintoosexy', 'darindamnsexy@sexymail.com'),
-(1, 'Tan Chin Kiat', 'chinkiatsexy', 'chinsexy', 'chindamnsexy@sexymail.com'),
-(2, 'Thumb Jin Lin', 'jinlinsexy', 'jinlintoosexy', 'jinlindamnsexy@sexymail.com'),
-(3, 'Andy Lamb', 'andysexy', 'andytoosexy', 'andydamnsexy@sexymail.com');
+(0, 'Darin Loh Han Sum', 'darinlohhandsome', 'darintoosexy', 'darindamnhandsome@sexymail.com'),
+(1, 'Tan Chin Kiat', 'chinkiatpower', 'chinsexy', 'chindamnsexy@sexymail.com'),
+(2, 'Thumb Jin Lin', 'jinlinhappy', 'jinlintoosexy', 'jinlindamnsexy@sexymail.com'),
+(3, 'Andy Lamb', 'andytall', 'andytoosexy', 'andydamnsexy@sexymail.com');
 
 INSERT  INTO Hoots VALUES 
 (0, 2, 'What should i do about this?'),
