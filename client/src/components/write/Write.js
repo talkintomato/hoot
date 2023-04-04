@@ -23,7 +23,7 @@ function Write(props) {
     fetch(`/api/drafts/${props.uid}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setDraftList(data);
       });
   });

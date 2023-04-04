@@ -3,7 +3,7 @@
 DROP TABLE IF EXISTS Users, Hoots, Replies, Drafts CASCADE;
 
 CREATE TABLE Users (
-	uid 			INTEGER,
+	uid 			VARCHAR(36),
     name			TEXT,
     username		TEXT,
     password_hash	TEXT,
@@ -12,23 +12,23 @@ CREATE TABLE Users (
 );
 
 CREATE TABLE Hoots (
-	hid 			INTEGER,
-	uid				INTEGER,
+	hid 			VARCHAR(36),
+	uid				VARCHAR(36),
     content			TEXT,
 	PRIMARY KEY (hid)
 );
 
 CREATE TABLE Drafts (
-	did 			INTEGER,
-	uid				INTEGER,
+	did 			VARCHAR(36),
+	uid				VARCHAR(36),
     content			TEXT,
 	PRIMARY KEY (did)
 );
 
 CREATE TABLE Replies (
-	rid 			INTEGER,
-	hid				INTEGER,
-    uid				INTEGER,
+	rid 			VARCHAR(36),
+	hid				VARCHAR(36),
+    uid				VARCHAR(36),
     content			TEXT,
 	PRIMARY KEY (rid)
 );

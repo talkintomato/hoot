@@ -61,22 +61,25 @@ const useStyles = makeStyles({
 export default function ComposeCard(props) {
   const classes = useStyles();
 
-  const [hoot, setHoot] = useState({ hooted: false, body: "" });
+  const [hoot, setHoot] = useState({ hooted: false, content: "" });
   const handleChange = (event) => {
-    setHoot({ ...hoot, body: event.target.value });
+    setHoot({ ...hoot, content: event.target.value });
   };
-  const postHoot = () => {
-    const body = {
-      uid: 100,
-      hid: 100,
-      content: hoot.body,
-    };
-    fetch(`/api/post/0`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    setHoot({ ...hoot, hooted: true });
+  const postHoot = async () => {
+    try {
+      const content = {
+        content: hoot.content,
+      };
+      const response = await fetch("/api/post/0", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(content),
+      });
+      console.log(response);
+      setHoot({ ...hoot, hooted: true });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

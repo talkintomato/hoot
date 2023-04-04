@@ -40,7 +40,7 @@ const useStyles = makeStyles({
 });
 
 function ProfileCard(props) {
-  console.log(props.data);
+  // console.log(props.data);
 
   // pull user data from backend instead
   const user = props.data;
