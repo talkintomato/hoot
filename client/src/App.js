@@ -10,7 +10,8 @@ import Write from "./components/write/Write";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, userEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles({
   root: {
@@ -23,7 +24,10 @@ function App() {
   const classes = useStyles();
   // const { user, isAuthenticated, isLoading } = useAuth0();
 
+  const [cookies, setCookie, removeCookie] = useCookies(null);
   const [uid, setUid] = useState(null);
+
+  const authToken = cookies.AuthToken;
 
   const getUser = async () => {
     console.log("getting user...");
@@ -38,11 +42,15 @@ function App() {
     }
   };
 
-  useEffect(() => getUser(), []);
+  useEffect(() => {
+    if (authToken) {
+      getUser();
+    }
+  }, []);
 
   return (
     <div className={classes.root}>
-      {true ? (
+      {authToken ? (
         <Router>
           <NavBar />
           <Route path="/hootbox" component={Hootbox} />

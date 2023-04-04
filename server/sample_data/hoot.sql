@@ -6,7 +6,7 @@ CREATE TABLE Users (
 	uid 			VARCHAR(36),
     name			TEXT,
     username		TEXT,
-    password_hash	TEXT,
+    hashed_password	TEXT,
     email			TEXT,
 	PRIMARY KEY (uid)
 );
