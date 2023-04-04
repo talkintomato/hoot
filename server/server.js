@@ -74,7 +74,6 @@ app.post("/api/post/:uid", async (req, res) => {
  */
 // Get public hoots
 app.get("/api/hoots", async (req, res) => {
-  console.log("backend posting");
   try {
     const hoots = await pool.query(
       "SELECT h.uid, u.username, h.content FROM hoots h JOIN users u ON h.uid = u.uid"

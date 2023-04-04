@@ -70,16 +70,19 @@ export default function ComposeCard(props) {
       const content = {
         content: hoot.content,
       };
-      const response = await fetch("/api/post/0", {
+
+      await fetch("/api/post/0", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(content),
       });
-      console.log(response);
-      setHoot({ ...hoot, hooted: true });
     } catch (err) {
       console.error(err);
     }
+  };
+  const hootButtonActions = () => {
+    setHoot({ ...hoot, hooted: true });
+    postHoot();
   };
 
   return (
@@ -129,7 +132,7 @@ export default function ComposeCard(props) {
           <Button
             variant="contained"
             className={classes.button}
-            onClick={postHoot}
+            onClick={hootButtonActions}
           >
             Hoot
           </Button>
