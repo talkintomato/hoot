@@ -62,13 +62,16 @@ const useStyles = makeStyles({
 export default function ComposeCard(props) {
   const classes = useStyles();
   const [cookies, setCookie, removeCookie] = useCookies(null);
+  const [hoot, setHoot] = useState({ hooted: false, content: "" });
+  const [draft, setDraft] = useState(props.draft);
+
   const uid = cookies.Uid;
 
-  const [hoot, setHoot] = useState({ hooted: false, content: "" });
   const handleChange = (event) => {
     setHoot({ ...hoot, content: event.target.value });
+    setDraft({ ...draft, content: event.target.value });
   };
-  const postHoot = async () => {
+  const postHootAPI = async () => {
     try {
       const content = {
         content: hoot.content,
@@ -83,9 +86,51 @@ export default function ComposeCard(props) {
       console.error(err);
     }
   };
-  const hootButtonActions = () => {
+
+  const saveDraftAPI = async (uid) => {
+    try {
+      const content = {
+        content: draft.content,
+      };
+      console.log("saving draft API called");
+
+      await fetch(`api/savedraft/${uid}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(content),
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const editDraftAPI = async (did) => {
+    try {
+      const content = {
+        content: draft.content,
+      };
+
+      await fetch(`api/editdraft/${did}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(content),
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onSave = () => {
+    console.log(draft);
+    draft.did === null ? saveDraftAPI(uid) : editDraftAPI(draft.did);
+    console.log("saved");
+    props.onDraft();
+  };
+
+  const onPost = () => {
     setHoot({ ...hoot, hooted: true });
-    postHoot();
+    console.log("hoot posted");
+    postHootAPI();
   };
 
   return (
@@ -97,7 +142,7 @@ export default function ComposeCard(props) {
           </Typography>
           <Button
             variant="contained"
-            onClick={props.onDrafts}
+            onClick={props.onDraft}
             className={classes.button}
           >
             Back to Drafts
@@ -113,13 +158,13 @@ export default function ComposeCard(props) {
           <CardContent className={classes.formContainer}>
             <form className={classes.form}>
               <textarea className={classes.textarea} onChange={handleChange}>
-                {props.prefill}
+                {draft.content}
               </textarea>
             </form>
           </CardContent>
           <Button
             variant="contained"
-            onClick={props.onDrafts}
+            onClick={props.onDraft}
             className={classes.button}
           >
             Back
@@ -128,14 +173,14 @@ export default function ComposeCard(props) {
             variant="contained"
             className={classes.button}
             // add save draft feature here
-            onClick={props.onDrafts}
+            onClick={onSave}
           >
             Save Draft
           </Button>
           <Button
             variant="contained"
             className={classes.button}
-            onClick={hootButtonActions}
+            onClick={onPost}
           >
             Hoot
           </Button>

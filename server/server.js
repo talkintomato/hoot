@@ -104,8 +104,42 @@ app.get("/api/drafts/:uid", async (req, res) => {
   }
 });
 
-// uid = 0;
-// // Post a hoot
+// Save a new draft (draft apis are untested)
+app.post("/api/savedraft/:uid", async (req, res) => {
+  const uid = req.params.uid;
+  const did = uuidv4();
+  const { content } = req.body;
+  console.log("saving draft...");
+  try {
+    pool.query("INSERT INTO drafts VALUES ($1, $2, $3)", [did, uid, content]);
+    console.log("draft saved");
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// Edit a draft
+app.put("/api/editdraft/:did", async (req, res) => {
+  const did = req.params.did;
+  const { content } = req.body;
+  try {
+    pool.query("UPDATE drafts SET content = $1 WHERE did = $2", [content, did]);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// Delete a draft
+app.delete("/api/deletedraft/:did", async (req, res) => {
+  const did = req.params.did;
+  try {
+    pool.query("DELETE FROM drafts WHERE did = $1", [did]);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// Post a hoot
 app.post("/api/post/:uid", async (req, res) => {
   const uid = req.params.uid;
   const hid = uuidv4();

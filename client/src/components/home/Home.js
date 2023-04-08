@@ -67,22 +67,22 @@ function Home() {
       </Typography>
       <Grid container spacing={1}>
         <Grid className={classes.grid} item xs={3}>
-          <Link to="../hootbox">
+          <Link to="./hootbox">
             <button className={classes.button}>Discover some Hoots!</button>
           </Link>
         </Grid>
         <Grid className={classes.grid} item xs={3}>
-          <Link to="../write">
+          <Link to="./write">
             <button className={classes.button}>Write a new Hoot!</button>
           </Link>
         </Grid>
         <Grid className={classes.grid} item xs={3}>
-          <Link to="../inbox">
+          <Link to="./inbox">
             <button className={classes.button}>Check your replies!</button>
           </Link>
         </Grid>
         <Grid className={classes.grid} item xs={3}>
-          <Link to="../profile">
+          <Link to="./profile">
             <button className={classes.button}>Go to your profile!</button>
           </Link>
         </Grid>

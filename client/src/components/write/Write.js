@@ -14,13 +14,13 @@ const useStyles = makeStyles({
 
 function Write(props) {
   const classes = useStyles();
-  const [drafts, setDrafts] = useState({ show: true, draft: {}, did: null });
+  const [draft, setDraft] = useState({ show: true, content: "", did: null });
   const [draftList, setDraftList] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies();
   const uid = cookies.Uid;
-  const showCompose = (draft, did) =>
-    setDrafts({ show: false, draft: draft, did: did });
-  const showDrafts = () => setDrafts({ show: true, draft: {}, did: null });
+  const showCompose = (content, did) =>
+    setDraft({ show: false, content: content, did: did });
+  const showDraft = () => setDraft({ show: true, content: "", did: null });
 
   useEffect(() => {
     fetch(`/api/drafts/${uid}`)
@@ -34,14 +34,14 @@ function Write(props) {
   return (
     <>
       <h1 className={classes.h1}> Write </h1>
-      {drafts.show ? (
+      {draft.show ? (
         <DraftCard
           data={draftList}
           onComposeNew={() => showCompose("", null)}
-          onEditDraft={(draft, did) => showCompose(draft, did)}
+          onEditDraft={(content, did) => showCompose(content, did)}
         />
       ) : (
-        <ComposeCard onDrafts={showDrafts} prefill={drafts.draft} />
+        <ComposeCard onDraft={showDraft} draft={draft} />
       )}
     </>
   );
