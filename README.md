@@ -1,4 +1,4 @@
-![Ui](public/background.jpg)
+![Ui](client/public/profile_page_screenshot.png)
 
 # Hoot
 
@@ -14,7 +14,7 @@ A safe space where you can share your thoughts anonymously!
 - Private replies from other users.
 - Toxicity will not be tolerated!
 
-## Devlopers
+## Developers
 
 ---
 
