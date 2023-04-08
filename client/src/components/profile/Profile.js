@@ -31,7 +31,7 @@ function Profile() {
       .then((data) => {
         setUserData(data[0]);
       });
-  });
+  }, [uid]);
 
   return (
     <div>

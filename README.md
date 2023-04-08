@@ -40,6 +40,9 @@ A safe space where you can share your thoughts anonymously!
 - cd into the client directory by running `cd client` from the root directory.
 - run the frontend by running `npm start`.
 - your browser should open a window showing the UI. If not, the default port for React is 3000, so you can navigate to the UI in your browswer by going to localhost:3000.
+- you should be seeing the login page as shown:
+
+![Login](client/public/login_page_screenshot.png)
 
 P.S. there is a "dev mode" button in the UI which populates the database with a few "bot" users for testing purposes.
 

@@ -6,6 +6,7 @@ import {
   Typography,
   Divider,
 } from "@material-ui/core";
+import { useEffect } from "react";
 
 const useStyles = makeStyles({
   profileBox: {

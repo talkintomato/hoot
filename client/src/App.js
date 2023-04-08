@@ -11,7 +11,6 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { blueGrey } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({
   root: {
@@ -43,6 +42,7 @@ function App() {
       const response = await fetch(`/users/${userEmail}`);
       const json = await response.json();
       setCookie("Uid", json[0].uid);
+      console.log("cookie uid set");
     } catch (err) {
       console.error(err);
     }
