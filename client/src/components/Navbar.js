@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useCookies } from "react-cookie";
 
 const StyledTab = withStyles((theme) => ({
   root: {
@@ -37,8 +38,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
+  const [cookies, setCookie, removeCookie] = useCookies(null);
   const [value, setValue] = React.useState(0);
-  const { logout } = useAuth0();
+  // const { logout } = useAuth0();
+  const logOut = () => {
+    console.log("User is logging out");
+    removeCookie("Email");
+    removeCookie("AuthToken");
+    removeCookie("Uid");
+    window.location.reload();
+  };
 
   return (
     <div className={classes.root}>
@@ -57,7 +66,7 @@ export default function Navbar() {
       <Link to="./profile">
         <StyledTab className={classes.label} label="Profile" />
       </Link>
-      <Button onClick={() => logout({ returnTo: window.location.origin })}>
+      <Button onClick={logOut}>
         <StyledTab className={classes.label} label="Logout" />
       </Button>
       <Typography className={classes.padding} />

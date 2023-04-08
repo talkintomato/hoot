@@ -46,7 +46,7 @@ const useStyles = makeStyles({
 
 export default function InboxCard(props) {
   const classes = useStyles();
-  console.log(props.data);
+  // console.log(props.data);
 
   const [reply, setReply] = useState({ open: false, hoot: "" });
   const showInbox = () => setReply({ open: false, hoot: "" });

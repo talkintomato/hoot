@@ -5,6 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Button } from "@material-ui/core";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles({
   root: {
@@ -60,23 +61,31 @@ const useStyles = makeStyles({
 
 export default function ComposeCard(props) {
   const classes = useStyles();
+  const [cookies, setCookie, removeCookie] = useCookies(null);
+  const uid = cookies.Uid;
 
-  const [hoot, setHoot] = useState({ hooted: false, body: "" });
+  const [hoot, setHoot] = useState({ hooted: false, content: "" });
   const handleChange = (event) => {
-    setHoot({ ...hoot, body: event.target.value });
+    setHoot({ ...hoot, content: event.target.value });
   };
-  const postHoot = () => {
-    const body = {
-      uid: 100,
-      hid: 100,
-      content: hoot.body,
-    };
-    fetch(`/api/post/0`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
+  const postHoot = async () => {
+    try {
+      const content = {
+        content: hoot.content,
+      };
+
+      await fetch(`/api/post/${uid}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(content),
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const hootButtonActions = () => {
     setHoot({ ...hoot, hooted: true });
+    postHoot();
   };
 
   return (
@@ -126,7 +135,7 @@ export default function ComposeCard(props) {
           <Button
             variant="contained"
             className={classes.button}
-            onClick={postHoot}
+            onClick={hootButtonActions}
           >
             Hoot
           </Button>

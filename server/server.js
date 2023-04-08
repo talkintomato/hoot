@@ -1,95 +1,199 @@
 const express = require("express");
-const { Client } = require("pg");
-
-// Create connection to db
-const client = new Client({
-  host: "localhost",
-  user: "postgres",
-  port: 5432,
-  password: "postgres",
-  database: "hoot",
-});
-
-// const client = require("./db");
-
-// Connect
-client.connect();
-
-const PORT = process.env.PORT ?? 5000;
+const cors = require("cors");
+const { v4: uuidv4 } = require("uuid");
+const pool = require("./db");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const app = express();
+const PORT = process.env.SERVERPORT ?? 5000;
+
+app.use(cors());
+app.use(express.json());
 
 /**
  * Login
  */
-// User authentication process here
-uid = 0;
+// Signup
+app.post("/signup", async (req, res) => {
+  const { email, username, password } = req.body;
+  const salt = bcrypt.genSaltSync(10);
+  const hashedPassword = bcrypt.hashSync(password, salt);
+  const uid = uuidv4();
+
+  try {
+    const signUp = await pool.query(
+      `INSERT INTO users(uid, name, username, hashed_password, email) VALUES ($1, $2, $3, $4, $5)`,
+      [uid, username, username, hashedPassword, email]
+    );
+
+    const token = jwt.sign({ email }, "secret", { expiresIn: "1hr" });
+
+    res.json({ email, token });
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// Login
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const users = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
+
+    if (!users.rows.length) return res.json({ detail: "User does not exist!" });
+
+    const success = await bcrypt.compare(
+      password,
+      users.rows[0].hashed_password
+    );
+    const token = jwt.sign({ email }, "secret", { expiresIn: "1hr" });
+    if (success) {
+      res.json({ email: users.rows[0].email, token });
+    } else {
+      res.json({ detail: "Login failed" });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// Get user id
+app.get("/users/:userEmail", async (req, res) => {
+  const userEmail = req.params.userEmail;
+  try {
+    const users = await pool.query("SELECT uid FROM users WHERE email = $1", [
+      userEmail,
+    ]);
+    res.json(users.rows);
+  } catch (err) {
+    console.error(err);
+  }
+});
 
 /**
  * Profile
  */
-app.get(`/api/user/${uid}`, (req, res) => {
-  let sql = `SELECT *, 
-        (SELECT COUNT(*) FROM hoots h WHERE h.uid = ${uid}) AS hoot_count,
-        (SELECT COUNT(*) FROM replies r WHERE r.uid = ${uid}) AS reply_count
-      FROM users u 
-      WHERE u.uid = ${uid}`;
-  client.query(sql, (err, result) => {
-    if (err) throw err;
-    res.json(result.rows);
-  });
+app.get("/api/user/:uid", async (req, res) => {
+  const uid = req.params.uid;
+
+  try {
+    const profile = await pool.query(
+      "SELECT *, (SELECT COUNT(*) FROM hoots h WHERE h.uid = $1) AS hoot_count, (SELECT COUNT(*) FROM replies r WHERE r.uid = $1) AS reply_count FROM users u WHERE u.uid = $1",
+      [uid]
+    );
+    res.json(profile.rows);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 /**
  * Write
  */
 // Get user drafts
-app.get(`/api/drafts/${uid}`, (req, res) => {
-  let sql = `SELECT * FROM drafts WHERE uid=${uid}`;
-  client.query(sql, (err, result) => {
-    if (err) throw err;
-    res.json(result.rows);
-  });
+app.get("/api/drafts/:uid", async (req, res) => {
+  const uid = req.params.uid;
+
+  try {
+    const drafts = await pool.query("SELECT * FROM drafts WHERE uid=$1", [uid]);
+    res.json(drafts.rows);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
-// Post a hoot
-app.post(`/api/post/${uid}`, async (req, res) => {
-  let hoot = req.body;
-  let sql = `INSERT INTO hoots VALUES (${hoot.hid}, ${hoot.uid}, ${hoot.content})`;
-  client.query(sql, (err, result) => {
-    if (err) throw err;
-    res.status = "success";
-  });
+// uid = 0;
+// // Post a hoot
+app.post("/api/post/:uid", async (req, res) => {
+  const uid = req.params.uid;
+  const hid = uuidv4();
+  const { content } = req.body;
+  try {
+    pool.query("INSERT INTO hoots VALUES ($1, $2, $3)", [hid, uid, content]);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 /**
  * Hootbox
  */
 // Get public hoots
-app.get("/api/hoots", (req, res) => {
-  let sql = `SELECT h.uid, u.username, h.content FROM hoots h JOIN users u ON h.uid = u.uid`;
-  client.query(sql, (err, result) => {
-    if (err) throw err;
-    res.json(result.rows);
-  });
+app.get("/api/hoots", async (req, res) => {
+  try {
+    const hoots = await pool.query(
+      "SELECT h.uid, u.username, h.content FROM hoots h JOIN users u ON h.uid = u.uid"
+      // "SELECT * FROM hoots h JOIN users u ON h.uid = u.uid"
+    );
+    res.json(hoots.rows);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 /**
  * Inbox
  */
 // Get inbox
-app.get(`/api/inbox/${uid}`, (req, res) => {
-  let sql = `SELECT r.rid, h.hid, ufrom.username, r.content, h.content AS parent
-      FROM users uto JOIN hoots h 
-      ON uto.uid = h.uid
-      JOIN replies r
-      ON r.hid = h.hid
-      JOIN users ufrom
-      ON r.uid = ufrom.uid
-      WHERE uto.uid = ${uid}`;
-  client.query(sql, (err, result) => {
-    if (err) throw err;
-    res.json(result.rows);
-  });
+app.get("/api/inbox/:uid", async (req, res) => {
+  const uid = req.params.uid;
+
+  try {
+    const replies = await pool.query(
+      "SELECT r.rid, h.hid, ufrom.username, r.content, h.content AS parent FROM users uto JOIN hoots h ON uto.uid = h.uid JOIN replies r ON r.hid = h.hid JOIN users ufrom ON r.uid = ufrom.uid WHERE uto.uid = $1",
+      [uid]
+    );
+    res.json(replies.rows);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// API to populate database with bots
+app.get("/devmode", async (req, res) => {
+  console.log("backend api called");
+  const uidDarin = uuidv4();
+  const uidChin = uuidv4();
+  const uidJin = uuidv4();
+  const uidAndy = uuidv4();
+  let salt = bcrypt.genSaltSync(10);
+  const hashedPasswordDarin = bcrypt.hashSync("darintoonice", salt);
+  salt = bcrypt.genSaltSync(10);
+  const hashedPasswordChin = bcrypt.hashSync("chinny", salt);
+  salt = bcrypt.genSaltSync(10);
+  const hashedPasswordJin = bcrypt.hashSync("jinlinthumb", salt);
+  salt = bcrypt.genSaltSync(10);
+  const hashedPasswordAndy = bcrypt.hashSync("andytoocool", salt);
+
+  try {
+    const signUp = await pool.query(
+      `INSERT INTO users(uid, username, hashed_password, email) VALUES ($1, $2, $3, $4), ($5, $6, $7, $8), ($9, $10, $11, $12), ($13, $14, $15, $16)`,
+      [
+        uidDarin,
+        "darinlohhandsome",
+        hashedPasswordDarin,
+        "darindamnhandsome@coolmail.com",
+        uidChin,
+        "chinkiatpower",
+        hashedPasswordChin,
+        "chindamncool@coolmail.com",
+        uidJin,
+        "jinlinhappy",
+        hashedPasswordJin,
+        "jinlindamncool@coolmail.com",
+        uidAndy,
+        "andytall",
+        hashedPasswordAndy,
+        "andydamncool@coolmail.com",
+      ]
+    );
+
+    res.json({ status: "Dev mode activated" });
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 app.listen(PORT, () => {
