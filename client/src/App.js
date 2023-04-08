@@ -8,7 +8,7 @@ import Profile from "./components/profile/Profile";
 import Reply from "./components/reply/Reply";
 import Stickers from "./components/stickers/Stickers";
 import Write from "./components/write/Write";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
@@ -84,6 +84,9 @@ function App() {
           <Route path="/reply" component={Reply} />
           <Route path="/stickers" component={Stickers} />
           <Route path="/write" component={() => <Write />} />
+          <Route path="/">
+            <Redirect to="/home" />
+          </Route>
         </Router>
       ) : (
         <div className={classes.loginPage}>
