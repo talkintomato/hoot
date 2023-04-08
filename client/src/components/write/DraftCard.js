@@ -5,6 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Divider } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles({
   root: {
@@ -39,9 +40,16 @@ const useStyles = makeStyles({
   },
   messagePrevButton: {
     marginTop: "15px",
+    marginRight: 10,
     padding: "10px",
     justifyContent: "flex-start",
-    width: "100%",
+    width: "88%",
+  },
+  deleteButton: {
+    marginTop: "15px",
+    padding: "10px",
+    justifyContent: "flex-start",
+    width: "10%",
   },
   compose: {
     height: "100%",
@@ -60,6 +68,20 @@ const useStyles = makeStyles({
 export default function DraftCard(props) {
   const classes = useStyles();
 
+  const onDeleteDraft = async (did) => {
+    try {
+      console.log("delete draft API called");
+
+      await fetch(`api/deletedraft/${did}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Card className={classes.root}>
       <CardContent className={classes.header}>
@@ -77,15 +99,25 @@ export default function DraftCard(props) {
       </CardContent>
       <Divider className={classes.divider} />
       {props.data.map((users) => (
-        <Button
-          variant="contained"
-          onClick={() => props.onEditDraft(users.content, users.did)}
-          className={classes.messagePrevButton}
-        >
-          <Typography className={classes.messagePrev}>
-            {users.content}
-          </Typography>
-        </Button>
+        <div>
+          <Button
+            variant="contained"
+            onClick={() => props.onEditDraft(users.content, users.did)}
+            className={classes.messagePrevButton}
+          >
+            <Typography className={classes.messagePrev}>
+              {users.content}
+            </Typography>
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => onDeleteDraft(users.did)}
+            className={classes.deleteButton}
+            endIcon={<DeleteIcon />}
+          >
+            <Typography className={classes.messagePrev}>DELETE</Typography>
+          </Button>
+        </div>
       ))}
     </Card>
   );

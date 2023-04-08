@@ -27,6 +27,7 @@ A safe space where you can share your thoughts anonymously!
 ### Database setup
 
 - create a PostgreSQL database on your local machine.
+- run the SQL code in the server/hoot.sql to create the database schema for hoot.
 - in the server directory, run `cp .env.example .env`.
 - in the .env folder, fill in all the relevant details. (default port for PostgreSQL database is 5432)
 

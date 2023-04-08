@@ -79,11 +79,11 @@ function App() {
           <NavBar />
           <Route path="/home" component={Home} />
           <Route path="/hootbox" component={Hootbox} />
-          <Route path="/inbox" component={() => <Inbox />} />
-          <Route path="/profile" component={() => <Profile />} />
+          <Route path="/inbox" component={Inbox} />
+          <Route path="/profile" component={Profile} />
           <Route path="/reply" component={Reply} />
           <Route path="/stickers" component={Stickers} />
-          <Route path="/write" component={() => <Write />} />
+          <Route path="/write" component={Write} />
           <Route path="/">
             <Redirect to="/home" />
           </Route>
