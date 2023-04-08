@@ -40,7 +40,7 @@ export default function Navbar() {
   const classes = useStyles();
   const [cookies, setCookie, removeCookie] = useCookies(null);
   const [value, setValue] = React.useState(0);
-  const { logout } = useAuth0();
+  // const { logout } = useAuth0();
   const logOut = () => {
     console.log("User is logging out");
     removeCookie("Email");

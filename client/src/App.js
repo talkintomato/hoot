@@ -34,12 +34,13 @@ function App() {
       const response = await fetch(`/users/${userEmail}`);
       const json = await response.json();
       setUid(json[0].uid);
-      setCookie("Uid", uid);
+      setCookie("Uid", json[0].uid);
     } catch (err) {
       console.error(err);
     }
   };
 
+  // NOTE: This function serves only to populate the database with some "bot" users for testing purposes
   const devMode = async (e) => {
     console.log("activating dev mode...");
     try {
@@ -68,8 +69,8 @@ function App() {
         <Router>
           <NavBar />
           <Route path="/hootbox" component={Hootbox} />
-          <Route path="/inbox" component={() => <Inbox uid={uid} />} />
-          <Route path="/profile" component={() => <Profile uid={uid} />} />
+          <Route path="/inbox" component={() => <Inbox />} />
+          <Route path="/profile" component={() => <Profile />} />
           <Route path="/reply" component={Reply} />
           <Route path="/stickers" component={Stickers} />
           <Route path="/write" component={() => <Write uid={uid} />} />

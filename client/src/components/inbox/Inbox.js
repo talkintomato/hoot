@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import InboxCard from "./InboxCard";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles({
   card: {},
@@ -11,11 +12,12 @@ const useStyles = makeStyles({
   },
 });
 
-function Inbox(props) {
+function Inbox() {
   const classes = useStyles();
+  const [cookies, setCookie, removeCookie] = useCookies(null);
 
   const [inbox, setInbox] = useState([]);
-  const uid = props.uid;
+  const uid = cookies.Uid;
 
   useEffect(() => {
     fetch(`/api/inbox/${uid}`)

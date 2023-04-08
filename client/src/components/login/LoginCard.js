@@ -111,11 +111,13 @@ export default function SimpleCard() {
           placeholder="email"
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input
-          type="username"
-          placeholder="username"
-          onChange={(e) => setUsername(e.target.value)}
-        />
+        {!isLogin && (
+          <input
+            type="username"
+            placeholder="username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        )}
         <input
           type="password"
           placeholder="password"

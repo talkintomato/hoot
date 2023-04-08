@@ -2,6 +2,7 @@ import { Grid, makeStyles } from "@material-ui/core";
 import owl1 from "./hootowl.jpg";
 import ProfileCard from "./ProfileCard";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles({
   avatar: {
@@ -17,11 +18,12 @@ const useStyles = makeStyles({
   },
 });
 
-function Profile(props) {
+function Profile() {
   const classes = useStyles();
+  const [cookies, setCookie, removeCookie] = useCookies(null);
 
   const [userData, setUserData] = useState({});
-  const uid = props.uid;
+  const uid = cookies.Uid;
 
   useEffect(() => {
     fetch(`/api/user/${uid}`)
