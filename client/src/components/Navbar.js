@@ -24,6 +24,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: "#D8ECEC",
+    margin: "10px",
+    borderRadius: "10px",
   },
   padding: {
     padding: theme.spacing(1),
@@ -51,6 +53,9 @@ export default function Navbar() {
 
   return (
     <div className={classes.root}>
+      <Link to="./home">
+        <StyledTab className={classes.label} label="Home" />
+      </Link>
       <Link to="./write">
         <StyledTab className={classes.label} label="Write" />
       </Link>

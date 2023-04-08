@@ -1,4 +1,5 @@
 import "./App.css";
+import Home from "./components/home/Home";
 import LoginCard from "./components/login/LoginCard";
 import Hootbox from "./components/hootbox/Hootbox";
 import Inbox from "./components/inbox/Inbox";
@@ -9,7 +10,7 @@ import Stickers from "./components/stickers/Stickers";
 import Write from "./components/write/Write";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles({
@@ -76,6 +77,7 @@ function App() {
       {authToken ? (
         <Router>
           <NavBar />
+          <Route path="/home" component={Home} />
           <Route path="/hootbox" component={Hootbox} />
           <Route path="/inbox" component={() => <Inbox />} />
           <Route path="/profile" component={() => <Profile />} />
