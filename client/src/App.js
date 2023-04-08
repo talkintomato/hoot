@@ -11,11 +11,21 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { blueGrey } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({
   root: {
-    alignContent: "center",
+    // display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     height: "100vh",
+  },
+  loginPage: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    background: "#eef7f7",
   },
 });
 
@@ -23,7 +33,6 @@ function App() {
   const classes = useStyles();
 
   const [cookies, setCookie, removeCookie] = useCookies(null);
-  const [uid, setUid] = useState(null);
 
   const authToken = cookies.AuthToken;
   const userEmail = cookies.Email;
@@ -33,7 +42,6 @@ function App() {
     try {
       const response = await fetch(`/users/${userEmail}`);
       const json = await response.json();
-      setUid(json[0].uid);
       setCookie("Uid", json[0].uid);
     } catch (err) {
       console.error(err);
@@ -73,10 +81,12 @@ function App() {
           <Route path="/profile" component={() => <Profile />} />
           <Route path="/reply" component={Reply} />
           <Route path="/stickers" component={Stickers} />
-          <Route path="/write" component={() => <Write uid={uid} />} />
+          <Route path="/write" component={() => <Write />} />
         </Router>
       ) : (
-        <LoginCard />
+        <div className={classes.loginPage}>
+          <LoginCard />
+        </div>
       )}
       <button onClick={devMode}>dev mode</button>
     </div>

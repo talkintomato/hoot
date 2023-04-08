@@ -1,3 +1,4 @@
+import { useCookies } from "react-cookie";
 import ComposeCard from "./ComposeCard";
 import DraftCard from "./DraftCard";
 import { makeStyles } from "@material-ui/core";
@@ -15,12 +16,14 @@ function Write(props) {
   const classes = useStyles();
   const [drafts, setDrafts] = useState({ show: true, draft: {}, did: null });
   const [draftList, setDraftList] = useState([]);
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const uid = cookies.Uid;
   const showCompose = (draft, did) =>
     setDrafts({ show: false, draft: draft, did: did });
   const showDrafts = () => setDrafts({ show: true, draft: {}, did: null });
 
   useEffect(() => {
-    fetch(`/api/drafts/${props.uid}`)
+    fetch(`/api/drafts/${uid}`)
       .then((response) => response.json())
       .then((data) => {
         // console.log(data);

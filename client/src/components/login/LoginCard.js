@@ -2,13 +2,12 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
-import LoginButton from "./loginbtn";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 400,
+    width: "30%",
     margin: 10,
     padding: 15,
     textAlign: "center",
@@ -45,6 +44,16 @@ const useStyles = makeStyles({
     fontWeight: "bold",
     borderRadius: 5,
     width: "50%",
+    borderStyle: "dotted",
+    borderColor: "#13C7C2",
+  },
+  submit: {
+    padding: 8,
+    marginTop: 2.5,
+    fontFamily: "Comfortaa",
+    fontSize: 12,
+    fontWeight: "bold",
+    borderRadius: 5,
     borderStyle: "dotted",
     borderColor: "#13C7C2",
   },
@@ -107,30 +116,35 @@ export default function SimpleCard() {
       </Typography>
       <form className={classes.form}>
         <input
+          className={classes.submit}
           type="email"
           placeholder="email"
           onChange={(e) => setEmail(e.target.value)}
         />
         {!isLogin && (
           <input
+            className={classes.submit}
             type="username"
             placeholder="username"
             onChange={(e) => setUsername(e.target.value)}
           />
         )}
         <input
+          className={classes.submit}
           type="password"
           placeholder="password"
           onChange={(e) => setPassword(e.target.value)}
         />
         {!isLogin && (
           <input
+            className={classes.submit}
             type="password"
             placeholder="confirm password"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         )}
         <input
+          className={classes.submit}
           type="submit"
           onClick={(e) => handleSubmit(e, isLogin ? "login" : "signup")}
         />

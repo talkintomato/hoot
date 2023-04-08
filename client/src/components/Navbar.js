@@ -45,6 +45,7 @@ export default function Navbar() {
     console.log("User is logging out");
     removeCookie("Email");
     removeCookie("AuthToken");
+    removeCookie("Uid");
     window.location.reload();
   };
 
