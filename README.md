@@ -3,6 +3,7 @@
 ---
 
 A safe space where you can share your thoughts anonymously!
+
 ![Home](client/public/home_page_screenshot.png)
 
 ## Introduction
@@ -13,7 +14,7 @@ A safe space where you can share your thoughts anonymously!
 - Private replies from other users.
 - Toxicity is not tolerated!
 
-UI screenshots below:
+More UI screenshots below:
 
 ![Profile](client/public/profile_page_screenshot.png)
 ![Hootbox](client/public/hootbox_page_screenshot.png)
