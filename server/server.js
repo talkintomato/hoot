@@ -104,7 +104,7 @@ app.get("/api/drafts/:uid", async (req, res) => {
   }
 });
 
-// Save a new draft (draft apis are untested)
+// Save a new draft
 app.post("/api/savedraft/:uid", async (req, res) => {
   const uid = req.params.uid;
   const did = uuidv4();
@@ -151,6 +151,23 @@ app.post("/api/post/:uid", async (req, res) => {
   }
 });
 
+// Reply to a hoot
+app.post("/api/reply/:uid", async (req, res) => {
+  const uid = req.params.uid;
+  const { hid, content } = req.body;
+  const rid = uuidv4();
+  try {
+    pool.query("INSERT INTO replies VALUES ($1, $2, $3, $4)", [
+      rid,
+      hid,
+      uid,
+      content,
+    ]);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 /**
  * Hootbox
  */
@@ -158,8 +175,7 @@ app.post("/api/post/:uid", async (req, res) => {
 app.get("/api/hoots", async (req, res) => {
   try {
     const hoots = await pool.query(
-      "SELECT h.uid, u.username, h.content FROM hoots h JOIN users u ON h.uid = u.uid"
-      // "SELECT * FROM hoots h JOIN users u ON h.uid = u.uid"
+      "SELECT h.uid, u.username, h.hid, h.content FROM hoots h JOIN users u ON h.uid = u.uid"
     );
     res.json(hoots.rows);
   } catch (err) {

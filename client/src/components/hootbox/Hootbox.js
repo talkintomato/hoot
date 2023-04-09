@@ -18,11 +18,9 @@ function Hootbox() {
   const [hoots, setHoots] = useState([]);
 
   useEffect(() => {
-    console.log("fetching hoots...");
     fetch("/api/hoots")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setHoots(data);
       });
   });

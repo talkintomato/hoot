@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
+import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles({
   root: {
@@ -40,6 +41,35 @@ export default function ResponseCard(props) {
   const classes = useStyles();
 
   const [replied, setReplied] = useState(false);
+  const [reply, setReply] = useState("");
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const uid = cookies.Uid;
+
+  const handleChange = (e) => {
+    setReply(e.target.value);
+  };
+
+  const onReply = async () => {
+    try {
+      console.log("onReply called");
+      const content = {
+        hid: props.hoot.hid,
+        content: reply,
+      };
+      console.log(content);
+
+      await fetch(`/api/reply/${uid}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(content),
+      });
+
+      setReplied(true);
+      console.log("reply complete");
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -70,6 +100,7 @@ export default function ResponseCard(props) {
             rows={10}
             fullWidth
             variant="filled"
+            onChange={handleChange}
           />
           <Button
             className={classes.button}
@@ -81,7 +112,7 @@ export default function ResponseCard(props) {
           <Button
             className={classes.button}
             variant="contained"
-            onClick={() => setReplied(true)}
+            onClick={onReply}
           >
             Reply
           </Button>
