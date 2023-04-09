@@ -1,11 +1,10 @@
-![Homepage](client/public/home_page_screenshot.png)
-![Ui](client/public/profile_page_screenshot.png)
-
 # Hoot
 
 ---
 
 A safe space where you can share your thoughts anonymously!
+![Homepage](client/public/home_page_screenshot.png)
+![Ui](client/public/profile_page_screenshot.png)
 
 ## Introduction
 

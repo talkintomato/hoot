@@ -50,6 +50,8 @@ const useStyles = makeStyles({
     padding: "10px",
     justifyContent: "flex-start",
     width: "10%",
+    color: "white",
+    background: "#4b9b9b",
   },
   compose: {
     height: "100%",
@@ -70,8 +72,6 @@ export default function DraftCard(props) {
 
   const onDeleteDraft = async (did) => {
     try {
-      console.log("delete draft API called");
-
       await fetch(`api/deletedraft/${did}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },

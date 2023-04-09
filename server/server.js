@@ -109,10 +109,8 @@ app.post("/api/savedraft/:uid", async (req, res) => {
   const uid = req.params.uid;
   const did = uuidv4();
   const { content } = req.body;
-  console.log("saving draft...");
   try {
     pool.query("INSERT INTO drafts VALUES ($1, $2, $3)", [did, uid, content]);
-    console.log("draft saved");
   } catch (err) {
     console.error(err);
   }
@@ -202,8 +200,8 @@ app.get("/api/inbox/:uid", async (req, res) => {
 });
 
 // API to populate database with bots
-app.get("/devmode", async (req, res) => {
-  console.log("backend api called");
+app.post("/devmode", async (req, res) => {
+  console.log("devmode api called");
   const uidDarin = uuidv4();
   const uidChin = uuidv4();
   const uidJin = uuidv4();
