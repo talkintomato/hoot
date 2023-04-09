@@ -6,7 +6,7 @@ import {
   Typography,
   Divider,
 } from "@material-ui/core";
-import { useEffect } from "react";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 const useStyles = makeStyles({
   profileBox: {
@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     fontWeight: "normal",
   },
   accountDetails: {
-    fontSize: 10,
+    fontSize: 17,
     fontFamily: "Comfortaa",
     fontWeight: "normal",
     color: "#A6A6A6",
@@ -38,12 +38,15 @@ const useStyles = makeStyles({
     margin: "10px",
     background: "#AFE1DB",
   },
+  settingsButton: {
+    fontSize: 10,
+    fontFamily: "Comfortaa",
+    fontWeight: "normal",
+    textTransform: "none",
+  },
 });
 
 function ProfileCard(props) {
-  // console.log(props.data);
-
-  // pull user data from backend instead
   const user = props.data;
   const classes = useStyles();
 
@@ -63,10 +66,11 @@ function ProfileCard(props) {
         <br />
         Email: {user.email}
         <br />
-        {/* Password: {user["password"].replace(/./g, "*")} */}
       </Typography>
-      <Button variant="outlined" size="small">
-        Edit
+      <Button variant="outlined" size="small" endIcon={<SettingsIcon />}>
+        <Typography className={classes.settingsButton}>
+          profile settings
+        </Typography>
       </Button>
     </Card>
   );

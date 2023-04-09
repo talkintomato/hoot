@@ -52,6 +52,7 @@ export default function ResponseCard(props) {
   const onReply = async () => {
     try {
       console.log("onReply called");
+      setReplied(true);
       const content = {
         hid: props.hoot.hid,
         content: reply,
@@ -63,9 +64,6 @@ export default function ResponseCard(props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(content),
       });
-
-      setReplied(true);
-      console.log("reply complete");
     } catch (err) {
       console.error(err);
     }

@@ -1,11 +1,9 @@
-![Homepage](client/public/home_page_screenshot.png)
-![Ui](client/public/profile_page_screenshot.png)
-
 # Hoot
 
 ---
 
 A safe space where you can share your thoughts anonymously!
+![Home](client/public/home_page_screenshot.png)
 
 ## Introduction
 
@@ -13,7 +11,14 @@ A safe space where you can share your thoughts anonymously!
 
 - Hoot is a platform for users to post messages to a public forum.
 - Private replies from other users.
-- Toxicity will not be tolerated!
+- Toxicity is not tolerated!
+
+UI screenshots below:
+
+![Profile](client/public/profile_page_screenshot.png)
+![Hootbox](client/public/hootbox_page_screenshot.png)
+![Inbox](client/public/inbox_page_screenshot.png)
+![Write](client/public/write_page_screenshot.png)
 
 ## Developers
 
