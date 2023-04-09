@@ -1,3 +1,4 @@
+![Homepage](client/public/home_page_screenshot.png)
 ![Ui](client/public/profile_page_screenshot.png)
 
 # Hoot
