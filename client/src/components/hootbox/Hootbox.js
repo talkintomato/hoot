@@ -1,7 +1,6 @@
 import { makeStyles } from "@material-ui/core";
-import InboxCard from "./InboxCard";
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import HootboxCard from "./HootboxCard";
 
 const useStyles = makeStyles({
   card: {},
@@ -12,27 +11,26 @@ const useStyles = makeStyles({
   },
 });
 
-function Inbox() {
+// This component is for the Hoot "Cloud"
+function Hootbox() {
   const classes = useStyles();
-  const [cookies, setCookie, removeCookie] = useCookies(null);
 
-  const [inbox, setInbox] = useState([]);
-  const uid = cookies.Uid;
+  const [hoots, setHoots] = useState([]);
 
   useEffect(() => {
-    fetch(`/api/inbox/${uid}`)
+    fetch("/api/hoots")
       .then((response) => response.json())
       .then((data) => {
-        setInbox(data);
+        setHoots(data);
       });
   });
 
   return (
     <>
-      <h1 className={classes.h1}> Inbox </h1>
-      <InboxCard data={inbox}></InboxCard>
+      <h1 className={classes.h1}> Hootbox </h1>
+      <HootboxCard data={hoots}></HootboxCard>
     </>
   );
 }
 
-export default Inbox;
+export default Hootbox;

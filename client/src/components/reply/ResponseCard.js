@@ -1,74 +1,121 @@
-import { Button, Card, Grid, makeStyles, TextField, Typography } from '@material-ui/core'
-import React from 'react'
+import {
+  Button,
+  Card,
+  makeStyles,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+import React, { useState } from "react";
+import { useCookies } from "react-cookie";
 
-const UseStyles = makeStyles({
-    msg: {
-        padding: "20px",
-        margin: "100px",
-        backgroundColor: 'rgba(00, 00, 00, 0.6)',
-        // opacity: "70%",
-    },
-    reply: {
-        padding: "20px",
-        margin: "100px",
-        backgroundColor: 'rgba(00, 00, 00, 0.2)',
-        // opacity: "30%",
+const useStyles = makeStyles({
+  root: {
+    minWidth: 275,
+    padding: "10px",
+    margin: "25px",
+    borderStyle: "dotted",
+    borderColor: "#13C7C2",
+    background: "#D8ECEC",
+  },
+  textfield: {
+    width: "100%",
+    height: "250px",
+    fontSize: 25,
+    color: "black",
+    fontFamily: "Comfortaa",
+    fontWeight: "bold",
+  },
+  hoot: {
+    fontFamily: "Comfortaa",
+    fontWeight: "normal",
+  },
+  button: {
+    fontFamily: "Comfortaa",
+    fontWeight: "normal",
+    textTransform: "none",
+    margin: "5px",
+  },
+});
 
-    },
-    msgText: {
-        fontSize: 40,
-        color: "#FFF",
-    },
-    replyText: {
-        fontSize: 40,
-        color: "#FFF",
-    },
-    root: {
-        spacing: "2",
-        direction: "row",
-        justify: "flex-start",
-        alignItems: "flex-start",
-    },
-    button: {
-        backgroundColor: "#EAAB66",
-        margin: "20px",
-    },
-})
+export default function ResponseCard(props) {
+  const classes = useStyles();
 
-export default function ResponseCard() {
-    const classes = UseStyles();
-    return (
-        <>
-            <Grid container>
-                <Grid item sm={6}>
-                    <Card className={classes.msg}>
-                        < Typography className={classes.msgText}>
-                            Dear A,
-                            Never gonna give you up.
-                            Never gonna let you down.
-                            Never gonna run around and desert you.
-                            Never gonna make you cry.
-                            Never gonna say goodbye.
-                            Never gonna tell a lie and hurt you. - B.
-                            </Typography>
-                    </Card>
-                </Grid>
-                <Grid item sm={6}>
-                    <Card className={classes.reply}>
-                        <TextField
-                            id="filled-textarea"
-                            label="Dear B, "
-                            // placeholder="Placeholder"
-                            multiline
-                            rows={10}
-                            fullWidth
-                            variant="filled"
-                        />
-                    </Card>
-                </Grid>
-            </Grid>
-            <Button variant="contained" className={classes.button}> Back </Button>
-            <Button variant="contained" className={classes.button}> Hoot </Button>
-        </>
-    )
+  const [replied, setReplied] = useState(false);
+  const [reply, setReply] = useState("");
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const uid = cookies.Uid;
+
+  const handleChange = (e) => {
+    setReply(e.target.value);
+  };
+
+  const onReply = async () => {
+    try {
+      console.log("onReply called");
+      setReplied(true);
+      const content = {
+        hid: props.hoot.hid,
+        content: reply,
+      };
+      console.log(content);
+
+      await fetch(`/api/reply/${uid}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(content),
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return (
+    <>
+      {replied ? (
+        <Card className={classes.root}>
+          <Typography className={classes.hoot}>
+            Your reply has been sent to {props.hoot.username}. Well done!
+          </Typography>
+          <Button
+            className={classes.button}
+            variant="contained"
+            onClick={props.onBack}
+          >
+            Back
+          </Button>
+        </Card>
+      ) : (
+        <Card className={classes.root}>
+          <Typography className={classes.hoot} style={{ fontWeight: "bold" }}>
+            From {props.hoot.username}:
+          </Typography>
+          <Typography className={classes.hoot}>{props.hoot.content}</Typography>
+          <TextField
+            id="filled-textarea"
+            label={"Dear " + props.hoot.username + ","}
+            placeholder="Type your reply here..."
+            multiline
+            rows={10}
+            fullWidth
+            variant="filled"
+            onChange={handleChange}
+          />
+          <Button
+            className={classes.button}
+            variant="contained"
+            onClick={props.onBack}
+          >
+            Back
+          </Button>
+          <Button
+            className={classes.button}
+            variant="contained"
+            onClick={onReply}
+          >
+            Reply
+          </Button>
+        </Card>
+      )}
+    </>
+  );
 }

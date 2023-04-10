@@ -6,49 +6,58 @@ import {
   Typography,
   Divider,
 } from "@material-ui/core";
+import SettingsIcon from "@material-ui/icons/Settings";
 
-const UseStyles = makeStyles({
+const useStyles = makeStyles({
   profileBox: {
     padding: "20px",
-    backgroundColor: "rgba(00, 00, 00, 0.6)",
+    borderStyle: "dotted",
+    borderColor: "#13C7C2",
+    background: "#D8ECEC",
   },
   profileName: {
-    fontSize: 55,
-    color: "white",
+    fontSize: 40,
+    fontFamily: "Comfortaa",
+    fontWeight: "bold",
   },
   profileBody: {
-    fontSize: 30,
-    color: "white",
+    fontSize: 20,
+    fontFamily: "Comfortaa",
+    fontWeight: "normal",
   },
   accountDetails: {
-    fontSize: 16,
-    color: "#CFD1D2",
+    fontSize: 17,
+    fontFamily: "Comfortaa",
+    fontWeight: "normal",
+    color: "#A6A6A6",
     marginBottom: 10,
   },
   divider: {
     width: "100%",
     padding: 1,
     margin: "10px",
+    background: "#AFE1DB",
+  },
+  settingsButton: {
+    fontSize: 10,
+    fontFamily: "Comfortaa",
+    fontWeight: "normal",
+    textTransform: "none",
   },
 });
 
 function ProfileCard(props) {
-  console.log(props.data);
   const user = props.data;
-  const classes = UseStyles();
+  const classes = useStyles();
 
   return (
     <Card className={classes.profileBox}>
-      <Typography className={classes.profileName}>Darin Loh Han Sum</Typography>
+      <Typography className={classes.profileName}>{user.username}</Typography>
       <Divider className={classes.divider} />
       <Typography className={classes.profileBody}>
-        HOOTS: {user.hoots}
+        You have {user.hoot_count} hoots and {user.reply_count} hootbacks.
         <br />
-        ANSWERS: {user.answers}
-        <br />
-        STICKERS: {user.stickers}
-        <br />
-        LEVEL: {user.rank}
+        Your current level: {"noob"}
       </Typography>
       <Divider className={classes.divider} />
       <Typography className={classes.accountDetails}>
@@ -57,10 +66,11 @@ function ProfileCard(props) {
         <br />
         Email: {user.email}
         <br />
-        Password: {user.password.replace(/./g, "*")}
       </Typography>
-      <Button variant="outlined" size="small">
-        Edit
+      <Button variant="outlined" size="small" endIcon={<SettingsIcon />}>
+        <Typography className={classes.settingsButton}>
+          profile settings
+        </Typography>
       </Button>
     </Card>
   );

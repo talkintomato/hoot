@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useCookies } from "react-cookie";
 
 const StyledTab = withStyles((theme) => ({
   root: {
@@ -22,43 +23,58 @@ const StyledTab = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    backgroundColor: "#D8ECEC",
+    margin: "10px",
+    borderRadius: "10px",
   },
   padding: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(1),
   },
-  demo2: {
-    backgroundColor: "#808080",
+  label: {
+    fontFamily: "Comfortaa",
+    fontWeight: "normal",
+    fontSize: 18,
+    color: "black",
   },
 }));
 
 export default function Navbar() {
   const classes = useStyles();
+  const [cookies, setCookie, removeCookie] = useCookies(null);
   const [value, setValue] = React.useState(0);
-  const { logout } = useAuth0();
+  // const { logout } = useAuth0();
+  const logOut = () => {
+    console.log("User is logging out");
+    removeCookie("Email");
+    removeCookie("AuthToken");
+    removeCookie("Uid");
+    window.location.reload();
+  };
 
   return (
     <div className={classes.root}>
-      <div className={classes.demo2}>
-        <Link to="./write">
-          <StyledTab label="Write" />
-        </Link>
-        <Link to="./reply">
-          <StyledTab label="Reply" />
-        </Link>
-        <Link to="./inbox">
-          <StyledTab label="Inbox" />
-        </Link>
-        <Link to="./stickers">
-          <StyledTab label="Stickers" />
-        </Link>
-        <Link to="./profile">
-          <StyledTab label="Profile" />
-        </Link>
-        <Button onClick={() => logout({ returnTo: window.location.origin })}>
-          <StyledTab label="Logout" />
-        </Button>
-        <Typography className={classes.padding} />
-      </div>
+      <Link to="./home">
+        <StyledTab className={classes.label} label="Home" />
+      </Link>
+      <Link to="./write">
+        <StyledTab className={classes.label} label="Write" />
+      </Link>
+      <Link to="./hootbox">
+        <StyledTab className={classes.label} label="Hootbox" />
+      </Link>
+      <Link to="./inbox">
+        <StyledTab className={classes.label} label="Inbox" />
+      </Link>
+      {/* <Link to="./stickers">
+        <StyledTab className={classes.label} label="Stickers" />
+      </Link> */}
+      <Link to="./profile">
+        <StyledTab className={classes.label} label="Profile" />
+      </Link>
+      <Button onClick={logOut}>
+        <StyledTab className={classes.label} label="Logout" />
+      </Button>
+      <Typography className={classes.padding} />
     </div>
   );
 }
