@@ -190,7 +190,7 @@ app.get("/api/inbox/:uid", async (req, res) => {
 
   try {
     const replies = await pool.query(
-      "SELECT r.rid, h.hid, ufrom.username, r.content, h.content AS parent FROM users uto JOIN hoots h ON uto.uid = h.uid JOIN replies r ON r.hid = h.hid JOIN users ufrom ON r.uid = ufrom.uid WHERE uto.uid = $1",
+      "SELECT r.rid, h.hid, u.username, r.content, h.content AS parent FROM users u, hoots h, replies r WHERE h.uid = $1 AND h.hid = r.hid AND r.uid = u.uid",
       [uid]
     );
     res.json(replies.rows);
